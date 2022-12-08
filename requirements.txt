@@ -1,0 +1,5 @@
+covasim==3.0.7
+matplotlib
+numpy
+pandas
+sciris
