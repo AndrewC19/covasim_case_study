@@ -3,9 +3,44 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import random
-
+import argparse
+import json
+import functools
 
 from covasim.data.loaders import get_age_distribution, get_household_size
+
+VARIANT_BETA_DICT = {'alpha': 1.67*0.016,
+                     'beta': 0.016,
+                     'gamma': 2.05*0.016,
+                     'delta': 2.2*0.016}
+
+
+BETA_DIST_STANDARD_DEVIATION = 0.016/5
+
+
+def assign_dominant_variant_to_locations(seed: int = 0) -> dict:
+    """Assign a dominant COVID variant to each location in Covasim that has a modelled age AND household size.
+
+    :param seed: Random seed to fix non-deterministic behaviour for reproducibility.
+    :return: A dictionary mapping locations to variants from Covasim."""
+    random.seed(seed)
+    locations_age_and_contacts_data = get_age_and_household_size_for_all_locations()
+    locations_beta_dists = {}
+
+    for location in locations_age_and_contacts_data:
+        locations_beta_dists[location] = np.random.choice(list(VARIANT_BETA_DICT.keys()))
+    return locations_beta_dists
+
+
+def variant_to_beta_dist(variant) -> np.random.normal:
+    """Transform variant into a normal distribution with the variant's beta value as mean and 0.016/5 standard dev.
+
+    :param variant: A string representing the COVID-19 variant (alpha, beta, delta, or gamma).
+    :return: A partial function of np.random.normal, preloaded the parameters for the location's beta dist.
+    """
+    mean = VARIANT_BETA_DICT[variant]
+    standard_deviation = BETA_DIST_STANDARD_DEVIATION
+    return functools.partial(np.random.normal, mean, standard_deviation)
 
 
 def get_covasim_locations() -> set:
@@ -31,10 +66,13 @@ def age_distribution_to_mean_age(age_distribution: np.array) -> float:
     return expected_age
 
 
-def get_age_and_household_size_for_all_locations() -> dict:
+def get_age_and_household_size_for_all_locations(verbose: bool = False) -> dict:
     """Obtain a dictionary mapping all Covasim locations to an age distribution and household size.
 
-    We discard any locations that do not have both an age distribution and a household size."""
+    We discard any locations that do not have both an age distribution and a household size
+    :param verbose: Whether to print locations missing either an age distribution or household size.
+    :return: A dictionary mapping locations with a specified age distribution and household size to those attributes.
+    """
     covasim_locations = get_covasim_locations()
     location_age_household_size_dict = {}
     for location in covasim_locations:
@@ -45,7 +83,8 @@ def get_age_and_household_size_for_all_locations() -> dict:
             mean_age = age_distribution_to_mean_age(age_distribution)
         except ValueError:
             # The location does not have a specified age distribution
-            print(f"Location \"{location}\" does not have a specified age distribution.")
+            if verbose:
+                print(f"Location \"{location}\" does not have a specified age distribution.")
             continue
 
         # Get the household size of each location
@@ -53,7 +92,8 @@ def get_age_and_household_size_for_all_locations() -> dict:
             household_size = get_household_size(location)
         except ValueError:
             # The location does not have a specified household size
-            print(f"Location \"{location}\" does not have a specified household size.")
+            if verbose:
+                print(f"Location \"{location}\" does not have a specified household size.")
             continue
 
         location_age_household_size_dict[location] = {"age_distribution": age_distribution,
@@ -88,19 +128,6 @@ def plot_location_distributions():
     plt.show()
 
 
-def collect_observational_data(n_runs_per_location: int = 10):
-    """Run Covasim to obtain simulated observational data.
-
-    For each location with an available age distribution and household contact data, we run the model n times.
-
-    :return:
-    """
-    age_and_household_data = get_age_and_household_size_for_all_locations()
-    print(len(age_and_household_data.keys()))
-    print(n_runs_per_location)
-    pass
-
-
 def run_comparison(source_pars_dict: dict, follow_up_pars_dict: dict, outputs_of_interest: [str],
                    n_runs_per_config: int = 1, verbose: int = -1):
     """ Runs Covasim with two different sets of parameters and reports the output of interest for both.
@@ -121,13 +148,14 @@ def run_comparison(source_pars_dict: dict, follow_up_pars_dict: dict, outputs_of
     return source_results_df, follow_up_results_df
 
 
-def run_sim_with_pars(pars_dict: dict, desired_outputs: [str], n_runs: int = 1, verbose: int = -1,
+def run_sim_with_pars(pars_dict: dict, desired_outputs: [str], variant: str, n_runs: int = 1, verbose: int = -1,
                       seed: int = 0):
     """ Runs a Covasim COVID-19 simulation with a given dict of parameters and collects the desired outputs, which are
     given as a list of output names.
 
     :param pars_dict: A dictionary containing the parameters and their values for the run.
     :param desired_outputs: A list of outputs which should be collected.
+    :param variant: A string representing the dominant variant of the location to simulate.
     :param n_runs: Number of times to run the simulation with a different seed.
     :param verbose: Covasim verbose setting (0 for no output, 1 for output).
     :param seed: Random seed for reproducibility. This fixes the stream of random seeds used for each run.
@@ -137,10 +165,12 @@ def run_sim_with_pars(pars_dict: dict, desired_outputs: [str], n_runs: int = 1, 
     results_dict = {k: [] for k in list(pars_dict.keys()) + desired_outputs + ['rand_seed', 'avg_age', 'beta',
                                                                                'avg_contacts_h', 'avg_contacts_s',
                                                                                'avg_contacts_w', 'avg_contacts_c']}
+    beta_dist = variant_to_beta_dist(variant)
     for _ in range(n_runs):
         # For every run, generate and use a new a random seed. This is to avoid using Covasim's sequential random seeds.
         rand_seed = random.randint(0, 1e6)
         pars_dict['rand_seed'] = rand_seed
+        pars_dict['beta'] = round(beta_dist(), 5)  # Sample a different beta per repeat from specified distribution
         sim = cv.Sim(pars=pars_dict, analyzers=[StoreAverageAge(), StoreContacts()])
         m_sim = cv.MultiSim(sim)
         m_sim.run(n_runs=1, verbose=verbose, n_cpus=1)
@@ -289,13 +319,40 @@ class StoreContacts(cv.Analyzer):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    eligible_locations = list(get_age_and_household_size_for_all_locations().keys())
+    parser.add_argument('--loc', type=str, default='UK',
+                        help=f"Location to simulate. Must be one of the following locations:"
+                             f"{eligible_locations}")
+    parser.add_argument('--variant', type=str, default='beta',
+                        help="The COVID-19 variant to include in the simulation for this location."
+                             "This is used to construct a probability distribution from which beta is sampled."
+                             "Must be one of the following variants: alpha, beta, delta, gamma.")
+    parser.add_argument('--gen', action='store_true',
+                        help="Whether to generate a dictionary of beta distributions for each location.")
+    parser.add_argument('--seed', type=int, default=0,
+                        help="The random seed to use. Must be a positive integer.")
+    parser.add_argument('--repeats', type=int, default=10,
+                        help="The number of times to run the simulation.")
+    args = parser.parse_args()
 
-    print(collect_observational_data())
-    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    #     results_df = run_sim_with_pars({'location': 'UK', 'pop_size': 1e5, 'pop_infected': 1e3,
-    #                                     'start_day': '2020-01-01', 'end_day': '2020-04-01',
-    #                                     'beta': 0.05, 'pop_type': 'hybrid'},
-    #                                    desired_outputs=["cum_infections", "cum_deaths"],
-    #                                    n_runs=3,
-    #                                    seed=1)
-    #     print(results_df)
+    if args.gen:
+        beta_dists = assign_dominant_variant_to_locations(seed=args.seed)
+        with open(f'location_variants_seed_{args.seed}.json', 'w') as json_file:
+            json.dump(beta_dists, json_file, indent=2)
+    else:
+
+        results_df = run_sim_with_pars({'location': args.loc,
+                                        'pop_size': 1e6,
+                                        'pop_infected': 1e3,
+                                        'start_day': '2020-01-01',
+                                        'end_day': '2020-12-31',
+                                        'pop_type': 'hybrid'},
+                                       desired_outputs=["cum_infections", "cum_deaths"],
+                                       variant=args.variant,
+                                       n_runs=args.repeats,
+                                       seed=args.seed)
+        output_path = f'results/{args.loc}_seed_{args.seed}.csv'
+        results_df.to_csv(output_path)
+        print(f'Saving results to {output_path}...')
+
