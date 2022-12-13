@@ -18,18 +18,30 @@ VARIANT_BETA_DICT = {'alpha': 1.67*0.016,
 BETA_DIST_STANDARD_DEVIATION = 0.016/5
 
 
-def assign_dominant_variant_to_locations(seed: int = 0) -> dict:
+def assign_dominant_variant_and_seed_to_locations(seed: int = 0) -> dict:
     """Assign a dominant COVID variant to each location in Covasim that has a modelled age AND household size.
 
     :param seed: Random seed to fix non-deterministic behaviour for reproducibility.
     :return: A dictionary mapping locations to variants from Covasim."""
     random.seed(seed)
     locations_age_and_contacts_data = get_age_and_household_size_for_all_locations()
-    locations_beta_dists = {}
+    locations_seed_and_variant = {}
 
     for location in locations_age_and_contacts_data:
-        locations_beta_dists[location] = np.random.choice(list(VARIANT_BETA_DICT.keys()))
-    return locations_beta_dists
+
+        # All locations that have brackets in the name are duplicates e.g. bolivia (plurinational state of) and bolivia
+        if not ('(' in location or ')' in location):
+            location_label = location.replace(' ', '_')  # For compatability with jq (JSON parsing in bash)
+            locations_seed_and_variant[location_label] = {}
+            locations_seed_and_variant[location_label]['variant'] = np.random.choice(list(VARIANT_BETA_DICT.keys()))
+            locations_seed_and_variant[location_label]['seed'] = np.random.randint(0, 1e6)
+
+    # Remove other duplicates that are synonyms/typos
+    del locations_seed_and_variant["viet_nam"]  # "vietnam" exists
+    del locations_seed_and_variant["united_states"]  # "usa" exists
+    del locations_seed_and_variant["united_states_of_america"]  # "usa" exists
+
+    return locations_seed_and_variant
 
 
 def variant_to_beta_dist(variant) -> np.random.normal:
@@ -337,11 +349,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.gen:
-        beta_dists = assign_dominant_variant_to_locations(seed=args.seed)
+        beta_dists = assign_dominant_variant_and_seed_to_locations(seed=args.seed)
         with open(f'location_variants_seed_{args.seed}.json', 'w') as json_file:
             json.dump(beta_dists, json_file, indent=2)
     else:
-
         results_df = run_sim_with_pars({'location': args.loc,
                                         'pop_size': 1e6,
                                         'pop_infected': 1e3,
