@@ -31,7 +31,7 @@ def assign_dominant_variant_and_seed_to_locations(seed: int = 0) -> dict:
 
         # All locations that have brackets in the name are duplicates e.g. bolivia (plurinational state of) and bolivia
         if not ('(' in location or ')' in location):
-            location_label = location.replace(' ', '_')  # For compatability with jq (JSON parsing in bash)
+            location_label = location.replace(' ', '_') .replace('-', '_')  # For compatability with jq in bash
             locations_seed_and_variant[location_label] = {}
             locations_seed_and_variant[location_label]['variant'] = np.random.choice(list(VARIANT_BETA_DICT.keys()))
             locations_seed_and_variant[location_label]['seed'] = np.random.randint(0, 1e6)
@@ -48,7 +48,7 @@ def variant_to_beta_dist(variant) -> np.random.normal:
     """Transform variant into a normal distribution with the variant's beta value as mean and 0.016/5 standard dev.
 
     :param variant: A string representing the COVID-19 variant (alpha, beta, delta, or gamma).
-    :return: A partial function of np.random.normal, preloaded the parameters for the location's beta dist.
+    :return: A partial function of np.random.normal, preloaded with the parameters for the location's beta dist.
     """
     mean = VARIANT_BETA_DICT[variant]
     standard_deviation = BETA_DIST_STANDARD_DEVIATION
@@ -176,14 +176,19 @@ def run_sim_with_pars(pars_dict: dict, desired_outputs: [str], variant: str, n_r
     random.seed(seed)
     results_dict = {k: [] for k in list(pars_dict.keys()) + desired_outputs + ['rand_seed', 'avg_age', 'beta',
                                                                                'avg_contacts_h', 'avg_contacts_s',
-                                                                               'avg_contacts_w', 'avg_contacts_c']}
+                                                                               'avg_contacts_w', 'avg_contacts_c',
+                                                                               'total_contacts_h', 'total_contacts_s',
+                                                                               'total_contacts_w', 'total_contacts_c',
+                                                                               'total_contacts', 'avg_rel_sus']}
     beta_dist = variant_to_beta_dist(variant)
     for _ in range(n_runs):
         # For every run, generate and use a new a random seed. This is to avoid using Covasim's sequential random seeds.
         rand_seed = random.randint(0, 1e6)
         pars_dict['rand_seed'] = rand_seed
         pars_dict['beta'] = round(beta_dist(), 5)  # Sample a different beta per repeat from specified distribution
-        sim = cv.Sim(pars=pars_dict, analyzers=[StoreAverageAge(), StoreContacts()])
+        sim = cv.Sim(pars=pars_dict, analyzers=[StoreAverageAge(),
+                                                StoreContacts(),
+                                                StoreAverageRelativeSusceptibility()])
         m_sim = cv.MultiSim(sim)
         m_sim.run(n_runs=1, verbose=verbose, n_cpus=1)
 
@@ -191,47 +196,49 @@ def run_sim_with_pars(pars_dict: dict, desired_outputs: [str], variant: str, n_r
             results = run.results
             # Append inputs to results
             for param in pars_dict.keys():
-                # if param == 'variants':
-                #     variant = run.pars[param][0].label
-                #     results_dict[param].append(variant)
-                #     # Beta is obtained by multiplying the base beta value by the variant-specific beta factor
-                #     results_dict['wild_beta'].append(run.pars['beta'])
-                #     results_dict['rel_beta'].append(run.pars['variant_pars'][variant]['rel_beta'])
-                #     results_dict['beta'].append(run.pars['variant_pars'][variant]['rel_beta']*run.pars['beta'])
-                #     results_dict['rel_severe_prob'].append(run.pars['variant_pars'][variant]['rel_severe_prob'])
-                # else:
                 results_dict[param].append(run.pars[param])
-
-            # # If a hybrid population is used, also record the household contacts
-            # if pars_dict['pop_type'] == 'hybrid':
-            #     results_dict['contacts_h'] = run.pars['contacts']['h']
-            #     results_dict['contacts_s'] = run.pars['contacts']['s']
-            #     results_dict['contacts_w'] = run.pars['contacts']['w']
-            #     results_dict['contacts_c'] = run.pars['contacts']['c']
-            # else:
-            #     results_dict['contacts'] = run.pars['contacts']['a']
-
-            # If variant has been specified, change pop_infected to n_imports
-            # if 'variants' in pars_dict:
-            #     results_dict['pop_infected'][-1] = run.pars['variants'][0].n_imports
 
             # Append outputs to results
             for output in desired_outputs:
                 if output not in results:
                     raise IndexError(f'{output} is not in the Covasim outputs.')
                 results_dict[output].append(results[output][-1])  # Append the final recorded value for each variable
+
             # Append average age
             results_dict['avg_age'].append(StoreAverageAge.get_age(run.get_analyzer(label='avg_age')))
 
-            # Append average contacts
+            # Append average relative susceptibility
+            results_dict['avg_rel_sus'].append(StoreAverageRelativeSusceptibility.get_avg_rel_sus(
+                run.get_analyzer(label='avg_rel_sus')))
+
+            # Append household contacts
             results_dict['avg_contacts_h'].append(StoreContacts.get_avg_household_contacts(
-                run.get_analyzer(label='avg_contacts')))
+                run.get_analyzer(label='contacts')))
+            results_dict['total_contacts_h'].append(StoreContacts.get_total_household_contacts(
+                run.get_analyzer(label='contacts')))
+
+            # Append school contacts
             results_dict['avg_contacts_s'].append(StoreContacts.get_avg_school_contacts(
-                run.get_analyzer(label='avg_contacts')))
+                run.get_analyzer(label='contacts')))
+            results_dict['total_contacts_s'].append(StoreContacts.get_total_school_contacts(
+                run.get_analyzer(label='contacts')))
+
+            # Append workplace contacts
             results_dict['avg_contacts_w'].append(StoreContacts.get_avg_work_contacts(
-                run.get_analyzer(label='avg_contacts')))
+                run.get_analyzer(label='contacts')))
+            results_dict['total_contacts_w'].append(StoreContacts.get_total_work_contacts(
+                run.get_analyzer(label='contacts')))
+
+            # Append community contacts
             results_dict['avg_contacts_c'].append(StoreContacts.get_avg_community_contacts(
-                run.get_analyzer(label='avg_contacts')))
+                run.get_analyzer(label='contacts')))
+            results_dict['total_contacts_c'].append(StoreContacts.get_total_community_contacts(
+                run.get_analyzer(label='contacts')))
+
+            # Append total contacts
+            results_dict['total_contacts'].append(StoreContacts.get_total_contacts(
+                run.get_analyzer(label='contacts')
+            ))
 
     # Any parameters without results are assigned np.nan for each execution
     for param, results in results_dict.items():
@@ -284,17 +291,45 @@ class StoreAverageAge(cv.Analyzer):
         return round(self.avg_age, 3)
 
 
+class StoreAverageRelativeSusceptibility(cv.Analyzer):
+    """Get the average relative susceptibility of all agents in the simulation on the start day."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label = 'avg_rel_sus'
+        self.avg_rel_sus = 0
+        return
+
+    def apply(self, sim):
+        """ On the first time-step, check the average relative susceptibility of the people in the simulation.
+
+        :param sim: The simulation to which the analyzer is applied.
+        """
+        if sim.t == sim.pars['n_days']:
+            self.avg_rel_sus = np.average(sim.people.rel_sus)
+        return
+
+    def get_avg_rel_sus(self):
+        """Return the average relative susceptibility recorded by the analyzer."""
+        return round(self.avg_rel_sus, 10)
+
+
 class StoreContacts(cv.Analyzer):
     """ Get the average age of all agents in the simulation on the start day. This is to avoid keeping people from
         simulation runs which requires a lot of memory. """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.label = 'avg_contacts'
-        self.contacts_h = 0
-        self.contacts_s = 0
-        self.contacts_w = 0
-        self.contacts_c = 0
+        self.label = 'contacts'
+        self.avg_contacts_h = 0
+        self.total_contacts_h = 0
+        self.avg_contacts_s = 0
+        self.total_contacts_s = 0
+        self.avg_contacts_w = 0
+        self.total_contacts_w = 0
+        self.avg_contacts_c = 0
+        self.total_contacts_c = 0
+        self.total_contacts = 0
         return
 
     def apply(self, sim):
@@ -303,31 +338,67 @@ class StoreContacts(cv.Analyzer):
         :param sim: The simulation to which the analyzer is applied.
         """
         if sim.t == sim.pars['n_days']:
-            self.contacts_h = round(len(sim.people.contacts['h']['p1']) * 2 /
-                                    len(sim.people.contacts['h'].members), 3)
-            self.contacts_s = round(len(sim.people.contacts['s']['p1']) * 2 /
-                                    len(sim.people.contacts['s'].members), 3)
-            self.contacts_w = round(len(sim.people.contacts['w']['p1']) * 2 /
-                                    len(sim.people.contacts['w'].members), 3)
-            self.contacts_c = round(len(sim.people.contacts['c']['p1']) * 2 /
-                                    len(sim.people.contacts['c'].members), 3)
+            # Household contacts
+            self.avg_contacts_h = round(len(sim.people.contacts['h']['p1']) * 2 /
+                                        len(sim.people.contacts['h'].members), 3)
+            self.total_contacts_h = round(len(sim.people.contacts['h']['p1']), 3)
+
+            # School contacts
+            self.avg_contacts_s = round(len(sim.people.contacts['s']['p1']) * 2 /
+                                        len(sim.people.contacts['s'].members), 3)
+            self.total_contacts_s = round(len(sim.people.contacts['s']['p1']), 3)
+
+            # Workplace contacts
+            self.avg_contacts_w = round(len(sim.people.contacts['w']['p1']) * 2 /
+                                        len(sim.people.contacts['w'].members), 3)
+            self.total_contacts_w = round(len(sim.people.contacts['w']['p1']), 3)
+
+            # Community contacts
+            self.avg_contacts_c = round(len(sim.people.contacts['c']['p1']) * 2 /
+                                        len(sim.people.contacts['c'].members), 3)
+            self.total_contacts_c = round(len(sim.people.contacts['c']['p1']), 3)
+
+            self.total_contacts = round(len(sim.people.contacts['h']['p1']) +
+                                        len(sim.people.contacts['s']['p1']) +
+                                        len(sim.people.contacts['w']['p1']) +
+                                        len(sim.people.contacts['c']['p1']), 3)
         return
 
     def get_avg_household_contacts(self):
         """Return the average household contacts recorded by the analyzer."""
-        return self.contacts_h
+        return self.avg_contacts_h
+
+    def get_total_household_contacts(self):
+        """Return the total household contacts recorded by the analyzer."""
+        return self.total_contacts_h
 
     def get_avg_school_contacts(self):
         """Return the average school contacts recorded by the analyzer."""
-        return self.contacts_s
+        return self.avg_contacts_s
+
+    def get_total_school_contacts(self):
+        """Return the total school contacts recorded by the analyzer."""
+        return self.total_contacts_s
 
     def get_avg_work_contacts(self):
         """Return the average work contacts recorded by the analyzer."""
-        return self.contacts_w
+        return self.avg_contacts_w
+
+    def get_total_work_contacts(self):
+        """Return the total work contacts recorded by the analyzer."""
+        return self.total_contacts_w
 
     def get_avg_community_contacts(self):
         """Return the average community contacts recorded by the analyzer."""
-        return self.contacts_c
+        return self.avg_contacts_c
+
+    def get_total_community_contacts(self):
+        """Return the total community contacts recorded by the analyzer."""
+        return self.total_contacts_c
+
+    def get_total_contacts(self):
+        """Return the total contacts across all contact layers recorded by the analyzer."""
+        return self.total_contacts
 
 
 if __name__ == "__main__":
@@ -353,7 +424,11 @@ if __name__ == "__main__":
         with open(f'location_variants_seed_{args.seed}.json', 'w') as json_file:
             json.dump(beta_dists, json_file, indent=2)
     else:
-        results_df = run_sim_with_pars({'location': args.loc,
+        location_in_covasim = args.loc.replace('_', ' ')
+        if location_in_covasim == 'timor leste':
+            location_in_covasim = 'timor-leste'  # Edge case: only valid location with hyphen
+
+        results_df = run_sim_with_pars({'location': location_in_covasim,
                                         'pop_size': 1e6,
                                         'pop_infected': 1e3,
                                         'start_day': '2020-01-01',
