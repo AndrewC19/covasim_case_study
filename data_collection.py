@@ -31,7 +31,7 @@ def assign_dominant_variant_and_seed_to_locations(seed: int = 0) -> dict:
 
         # All locations that have brackets in the name are duplicates e.g. bolivia (plurinational state of) and bolivia
         if not ('(' in location or ')' in location):
-            location_label = location.replace(' ', '_') .replace('-', '_')  # For compatability with jq in bash
+            location_label = location.replace(' ', '_') .replace('-', '_').replace('é', 'e')  # For jq compatability
             locations_seed_and_variant[location_label] = {}
             locations_seed_and_variant[location_label]['variant'] = np.random.choice(list(VARIANT_BETA_DICT.keys()))
             locations_seed_and_variant[location_label]['seed'] = np.random.randint(0, 1e6)
@@ -427,6 +427,8 @@ if __name__ == "__main__":
         location_in_covasim = args.loc.replace('_', ' ')
         if location_in_covasim == 'timor leste':
             location_in_covasim = 'timor-leste'  # Edge case: only valid location with hyphen
+        elif location_in_covasim == 'reunion':
+            location_in_covasim = 'réunion'
 
         results_df = run_sim_with_pars({'location': location_in_covasim,
                                         'pop_size': 1e6,
