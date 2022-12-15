@@ -6,7 +6,7 @@ export SLURM_EXPORT_ENV=ALL
 module load Anaconda3/5.3.0
 
 # We assume that the conda environment 'covenv' has already been created
-source activate covvenv
+source activate covenv
 
 # $1 is location.
 # $2 is the variant. The variant used for each location is found under location_variants_seed_0.json.
