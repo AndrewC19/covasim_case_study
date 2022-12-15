@@ -1,0 +1,1562 @@
+{
+  "australia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      82239,
+      346682
+    ]
+  },
+  "oman": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      618925,
+      262706
+    ]
+  },
+  "new_zealand": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      493721,
+      436781
+    ]
+  },
+  "benin": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      868971,
+      526452
+    ]
+  },
+  "tanzania": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      568316,
+      556514
+    ]
+  },
+  "sudan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      377720,
+      155719
+    ]
+  },
+  "norway": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      96341,
+      241952
+    ]
+  },
+  "moldova": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      45819,
+      200698
+    ]
+  },
+  "reunion": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      487822,
+      892526
+    ]
+  },
+  "haiti": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      38663,
+      350896
+    ]
+  },
+  "pakistan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      678911,
+      566221
+    ]
+  },
+  "papua_new_guinea": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      799251,
+      684708
+    ]
+  },
+  "kenya": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      878077,
+      888984
+    ]
+  },
+  "colombia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      599583,
+      181234
+    ]
+  },
+  "ireland": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      834903,
+      180828
+    ]
+  },
+  "niger": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      878292,
+      153076
+    ]
+  },
+  "albania": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      38621,
+      952832
+    ]
+  },
+  "kyrgyzstan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      764647,
+      254825
+    ]
+  },
+  "timor_leste": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      628218,
+      306496
+    ]
+  },
+  "madagascar": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      725778,
+      98878
+    ]
+  },
+  "burkina": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      907283,
+      728346
+    ]
+  },
+  "latvia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      94900,
+      79192
+    ]
+  },
+  "russian_federation": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      760267,
+      39741
+    ]
+  },
+  "congo": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      548874,
+      552170
+    ]
+  },
+  "gambia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      146526,
+      470734
+    ]
+  },
+  "estonia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      732278,
+      610067
+    ]
+  },
+  "belgium": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      696883,
+      435099
+    ]
+  },
+  "puerto_rico": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      539078,
+      442347
+    ]
+  },
+  "republic_of_korea": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      829252,
+      750765
+    ]
+  },
+  "luxembourg": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      164356,
+      566324
+    ]
+  },
+  "hungary": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      137737,
+      672618
+    ]
+  },
+  "zimbabwe": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      612039,
+      397795
+    ]
+  },
+  "uganda": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      627865,
+      920889
+    ]
+  },
+  "rwanda": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      332260,
+      88005
+    ]
+  },
+  "china": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      830586,
+      188565
+    ]
+  },
+  "bahamas": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      688787,
+      417432
+    ]
+  },
+  "mongolia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      784317,
+      601061
+    ]
+  },
+  "guadeloupe": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      108593,
+      183209
+    ]
+  },
+  "panama": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      151675,
+      744221
+    ]
+  },
+  "serbia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      388184,
+      281925
+    ]
+  },
+  "dominican_republic": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      208219,
+      319350
+    ]
+  },
+  "nepal": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      47456,
+      520498
+    ]
+  },
+  "liberia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      962597,
+      216513
+    ]
+  },
+  "bangladesh": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      59154,
+      880732
+    ]
+  },
+  "united_republic_of_tanzania": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      938585,
+      950640
+    ]
+  },
+  "cyprus": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      431612,
+      10273
+    ]
+  },
+  "chad": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      393164,
+      727925
+    ]
+  },
+  "ecuador": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      433050,
+      937643
+    ]
+  },
+  "spain": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      722835,
+      521764
+    ]
+  },
+  "south_korea": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      831978,
+      556499
+    ]
+  },
+  "lithuania": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      24690,
+      72536
+    ]
+  },
+  "israel": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      516654,
+      83991
+    ]
+  },
+  "iran": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      426758,
+      241973
+    ]
+  },
+  "angola": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      930073,
+      743668
+    ]
+  },
+  "jordan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      340525,
+      227584
+    ]
+  },
+  "kazakhstan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      374217,
+      118295
+    ]
+  },
+  "vietnam": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      537022,
+      375226
+    ]
+  },
+  "cameroon": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      214478,
+      495223
+    ]
+  },
+  "singapore": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      259938,
+      501701
+    ]
+  },
+  "united_kingdom": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      464619,
+      565642
+    ]
+  },
+  "italy": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      66670,
+      895926
+    ]
+  },
+  "argentina": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      680117,
+      965468
+    ]
+  },
+  "french_guiana": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      46807,
+      106179
+    ]
+  },
+  "slovenia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      674473,
+      966455
+    ]
+  },
+  "palestine": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      420762,
+      537105
+    ]
+  },
+  "georgia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      891259,
+      109387
+    ]
+  },
+  "romania": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      820974,
+      977612
+    ]
+  },
+  "botswana": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      986014,
+      905609
+    ]
+  },
+  "canada": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      825717,
+      473999
+    ]
+  },
+  "martinique": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      63481,
+      290512
+    ]
+  },
+  "jamaica": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      486142,
+      432925
+    ]
+  },
+  "afghanistan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      839715,
+      405079
+    ]
+  },
+  "venezuela": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      479542,
+      798858
+    ]
+  },
+  "mozambique": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      450264,
+      373258
+    ]
+  },
+  "comoros": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      138673,
+      455372
+    ]
+  },
+  "bulgaria": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      922627,
+      318718
+    ]
+  },
+  "philippines": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      69302,
+      573801
+    ]
+  },
+  "el_salvador": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      430592,
+      739857
+    ]
+  },
+  "poland": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      127891,
+      30057
+    ]
+  },
+  "switzerland": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      481345,
+      394752
+    ]
+  },
+  "sao_tome_and_principe": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      29604,
+      819462
+    ]
+  },
+  "turkey": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      644205,
+      949795
+    ]
+  },
+  "cambodia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      200113,
+      900194
+    ]
+  },
+  "suriname": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      881399,
+      960307
+    ]
+  },
+  "armenia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      137839,
+      553812
+    ]
+  },
+  "south_sudan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      993512,
+      775311
+    ]
+  },
+  "guinea": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      154654,
+      910682
+    ]
+  },
+  "belarus": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      452440,
+      797473
+    ]
+  },
+  "zambia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      647785,
+      510025
+    ]
+  },
+  "indonesia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      82748,
+      703103
+    ]
+  },
+  "costa_rica": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      340620,
+      505132
+    ]
+  },
+  "czechia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      877839,
+      437122
+    ]
+  },
+  "mali": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      333971,
+      894873
+    ]
+  },
+  "uzbekistan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      58643,
+      604754
+    ]
+  },
+  "sierra_leone": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      478118,
+      120501
+    ]
+  },
+  "thailand": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      59516,
+      391658
+    ]
+  },
+  "mauritius": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      147760,
+      178432
+    ]
+  },
+  "iraq": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      335245,
+      97666
+    ]
+  },
+  "cuba": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      617308,
+      149089
+    ]
+  },
+  "netherlands": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      254953,
+      401965
+    ]
+  },
+  "malawi": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      287297,
+      727567
+    ]
+  },
+  "honduras": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      965012,
+      327645
+    ]
+  },
+  "slovakia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      794903,
+      398258
+    ]
+  },
+  "fiji": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      587558,
+      778453
+    ]
+  },
+  "central_african_republic": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      641451,
+      500716
+    ]
+  },
+  "yemen": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      953361,
+      423365
+    ]
+  },
+  "namibia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      884344,
+      820995
+    ]
+  },
+  "ukraine": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      833362,
+      688164
+    ]
+  },
+  "uruguay": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      181914,
+      180
+    ]
+  },
+  "malaysia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      935416,
+      777581
+    ]
+  },
+  "guatemala": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      376483,
+      881665
+    ]
+  },
+  "russia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      253304,
+      17276
+    ]
+  },
+  "burkina_faso": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      472370,
+      296015
+    ]
+  },
+  "greece": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      305530,
+      618730
+    ]
+  },
+  "tajikistan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      6261,
+      949712
+    ]
+  },
+  "gabon": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      236157,
+      580696
+    ]
+  },
+  "montenegro": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      125813,
+      42982
+    ]
+  },
+  "lesotho": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      66878,
+      429722
+    ]
+  },
+  "seychelles": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      528355,
+      656433
+    ]
+  },
+  "republic_of_moldova": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      201094,
+      121860
+    ]
+  },
+  "brazil": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      221227,
+      16388
+    ]
+  },
+  "malta": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      357521,
+      919169
+    ]
+  },
+  "togo": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      216162,
+      456038
+    ]
+  },
+  "japan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      261803,
+      940957
+    ]
+  },
+  "portugal": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      918310,
+      141388
+    ]
+  },
+  "guyana": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      812085,
+      546818
+    ]
+  },
+  "burundi": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      939861,
+      974293
+    ]
+  },
+  "finland": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      81611,
+      638746
+    ]
+  },
+  "usa": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      64747,
+      912375
+    ]
+  },
+  "bolivia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      562700,
+      789297
+    ]
+  },
+  "peru": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      666760,
+      462359
+    ]
+  },
+  "mayotte": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      768681,
+      425371
+    ]
+  },
+  "nicaragua": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      698186,
+      376205
+    ]
+  },
+  "myanmar": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      189855,
+      119268
+    ]
+  },
+  "morocco": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      504813,
+      802197
+    ]
+  },
+  "maldives": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      440419,
+      331431
+    ]
+  },
+  "samoa": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      672652,
+      38677
+    ]
+  },
+  "croatia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      401199,
+      450448
+    ]
+  },
+  "germany": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      218735,
+      496663
+    ]
+  },
+  "paraguay": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      932065,
+      909489
+    ]
+  },
+  "egypt": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      625339,
+      134578
+    ]
+  },
+  "france": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      417991,
+      651661
+    ]
+  },
+  "ghana": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      412755,
+      389629
+    ]
+  },
+  "south_africa": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      124674,
+      500537
+    ]
+  },
+  "senegal": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      326406,
+      123147
+    ]
+  },
+  "trinidad_and_tobago": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      965638,
+      47249
+    ]
+  },
+  "azerbaijan": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      397796,
+      772800
+    ]
+  },
+  "korea": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      120454,
+      594220
+    ]
+  },
+  "aruba": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      804451,
+      412964
+    ]
+  },
+  "nigeria": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      433024,
+      863683
+    ]
+  },
+  "chile": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      284810,
+      531678
+    ]
+  },
+  "india": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      90696,
+      493503
+    ]
+  },
+  "mexico": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      834988,
+      157203
+    ]
+  },
+  "ethiopia": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      836988,
+      442041
+    ]
+  },
+  "state_of_palestine": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      738184,
+      185426
+    ]
+  },
+  "austria": {
+    "variants": [
+      "beta",
+      "alpha"
+    ],
+    "seeds": [
+      918221,
+      644897
+    ]
+  }
+}

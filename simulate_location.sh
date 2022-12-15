@@ -13,4 +13,9 @@ source activate covenv
 # $3 is seed. This seed used for each location is found under location_variants_seed_0.json.
 # $4 is repeats. Our experiments use 30 repeats.
 # $5 is whether to use a fixed beta. This is used for producing highly uniform data.
-python data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --fixed $5
+if [ $5 = true ] || [ $5 = "True" ] || [ $5 = 1 ]
+then
+  python data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --fixed
+else
+  python data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4
+fi

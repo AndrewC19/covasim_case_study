@@ -18,14 +18,17 @@ VARIANT_BETA_DICT = {'alpha': 1.67*0.016,
 BETA_DIST_STANDARD_DEVIATION = 0.016/5
 
 
-def assign_dominant_variant_and_seed_to_locations(seed: int = 0) -> dict:
+def assign_dominant_variant_and_seed_to_locations(fixed: bool = False, seed: int = 0) -> dict:
     """Assign a dominant COVID variant to each location in Covasim that has a modelled age AND household size.
 
+    :param fixed: Whether to use a pair of fixed variants for all locations or a randomly sampled variant for each
+                  location.
     :param seed: Random seed to fix non-deterministic behaviour for reproducibility.
     :return: A dictionary mapping locations to variants from Covasim."""
     random.seed(seed)
     locations_age_and_contacts_data = get_age_and_household_size_for_all_locations()
     locations_seed_and_variant = {}
+    variants = list(np.random.choice(list(VARIANT_BETA_DICT.keys()), 2))
 
     for location in locations_age_and_contacts_data:
 
@@ -33,14 +36,21 @@ def assign_dominant_variant_and_seed_to_locations(seed: int = 0) -> dict:
         if not ('(' in location or ')' in location):
             location_label = location.replace(' ', '_') .replace('-', '_').replace('é', 'e')  # For jq compatability
             locations_seed_and_variant[location_label] = {}
-            locations_seed_and_variant[location_label]['variant'] = np.random.choice(list(VARIANT_BETA_DICT.keys()))
-            locations_seed_and_variant[location_label]['seed'] = np.random.randint(0, 1e6)
+
+            if fixed:
+                locations_seed_and_variant[location_label]['variants'] = variants
+                seeds = [int(seed) for seed in list(np.random.randint(0, 1e6, 2))]
+                locations_seed_and_variant[location_label]['seeds'] = seeds
+            else:
+                locations_seed_and_variant[location_label]['variant'] = np.random.choice(list(VARIANT_BETA_DICT.keys()))
+                locations_seed_and_variant[location_label]['seed'] = np.random.randint(0, 1e6)
 
     # Remove other duplicates that are synonyms/typos
     del locations_seed_and_variant["viet_nam"]  # "vietnam" exists
     del locations_seed_and_variant["united_states"]  # "usa" exists
     del locations_seed_and_variant["united_states_of_america"]  # "usa" exists
 
+    print(locations_seed_and_variant)
     return locations_seed_and_variant
 
 
@@ -478,7 +488,8 @@ if __name__ == "__main__":
                              "This is used to construct a probability distribution from which beta is sampled."
                              "Must be one of the following variants: alpha, beta, delta, gamma.")
     parser.add_argument('--gen', action='store_true',
-                        help="Whether to generate a dictionary of beta distributions for each location.")
+                        help="Whether to generate a json of beta distributions for each location and a json of beta"
+                             " values for each location (for metamorphic testing).")
     parser.add_argument('--seed', type=int, default=0,
                         help="The random seed to use. Must be a positive integer.")
     parser.add_argument('--repeats', type=int, default=10,
@@ -488,8 +499,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.gen:
-        beta_dists = assign_dominant_variant_and_seed_to_locations(seed=args.seed)
-        with open(f'location_variants_seed_{args.seed}.json', 'w') as json_file:
+        beta_dists = assign_dominant_variant_and_seed_to_locations(fixed=args.fixed, seed=args.seed)
+        if args.fixed:
+            json_file_name = f'location_fixed_variants_seed_{args.seed}.json'
+        else:
+            json_file_name = f'location_variants_seed_{args.seed}.json'
+        with open(json_file_name, 'w') as json_file:
             json.dump(beta_dists, json_file, indent=2)
     else:
         location_in_covasim = args.loc.replace('_', ' ')
