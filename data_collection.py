@@ -1,4 +1,5 @@
 import covasim as cv
+import covasim.data as cvdata
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -477,6 +478,100 @@ class StoreContacts(cv.Analyzer):
         return self.total_contacts
 
 
+def does_age_affect_infections():
+    locations = list(get_age_and_household_size_for_all_locations())
+    # some_locations = np.random.choice(locations, 20, replace=False)
+    results_dict = {}
+    for location in locations:
+
+        sim = cv.Sim(pars={"location": location, "pop_type": "hybrid",
+                           "contacts": {"h": 20,
+                                        "s": 20,
+                                        "w": 20,
+                                        "c": 20}
+                           },
+                     )
+        sim.initialize(use_household_data=False)
+        sim.run()
+        infections = sim.summary['cum_infections']
+        age = sim.people.age.mean()
+        rel_sus = sim.people.rel_sus.mean()
+        a_household_contacts = sim.pars['contacts']['h']
+        n_school_contacts = len(sim.people.contacts['s'].members)
+        n_workplace_contacts = len(sim.people.contacts['w'].members)
+
+        results_dict[location] = {'cumulative_infections': infections,
+                                  'rel_sus': rel_sus,
+                                  'n_school_contacts': n_school_contacts,
+                                  'n_workplace_contacts': n_workplace_contacts,
+                                  'average_age': age,
+                                  'a_household_contacts': a_household_contacts}
+        if location == "france":
+            print(age, a_household_contacts)
+    tuples = []
+    print(results_dict)
+    for k, v in results_dict.items():
+        tuples.append((k, v['cumulative_infections'], v['n_school_contacts'],
+                       v['a_household_contacts']))
+    sorted_tuples = sorted(tuples, key=lambda t: t[2])
+    print(sorted_tuples)
+    for location_tuple in sorted_tuples:
+        plt.scatter(location_tuple[2], location_tuple[1],
+                    label=location_tuple[0])
+    plt.show()
+
+
+def do_household_contacts_affect_infections():
+    print(get_age_and_household_size_for_all_locations())
+    locations = list(get_age_and_household_size_for_all_locations().keys())
+    some_locations = np.random.choice(locations, 5, replace=False)
+    some_locations = ['UK', 'US-minnesota']
+    for location in some_locations:
+
+        results_list = []
+        for x in [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]:
+            sim = cv.Sim(pars={"location": location,
+                               "pop_type": "hybrid",
+                               "n_days": 200,
+                               "rand_seed": 1,
+                               "contacts": {"h": x,
+                                            "s": 20,
+                                            "w": 16,
+                                            "c": 20}})
+            # sim.initialize(reset=True)
+            sim.pars['contacts']['h'] = x
+            sim.initialize(reset=True)
+            sim.run()
+            infections = sim.summary['cum_infections']
+            age = sim.people.age.mean()
+            contacts = sim.pars['contacts']['h']
+            results_list.append((location, infections, contacts))
+            # results_dict[location] = {'cumulative_infections': infections,
+            #                           'household_contacts': contacts,
+            #                           'average_age': age}
+        sorted_results = sorted(results_list, key=lambda t: t[2])
+        print(sorted_results)
+        for location_tuple in sorted_results:
+            plt.scatter(location_tuple[2], location_tuple[1],
+                        label=location_tuple[0])
+        plt.title(location)
+        plt.show()
+
+
+def beta_vs_infections():
+    results_list = []
+    for beta in [0.01, 0.02, 0.03, 0.04, 0.05]:
+        sim = cv.Sim(pars={'location': 'united kingdom',
+                           'pop_type': 'hybrid',
+                           'beta': beta})
+        sim.run()
+        infections = sim.summary['cum_infections']
+        results_list.append((beta, infections))
+    for beta_tuple in results_list:
+        plt.scatter(beta_tuple[0], beta_tuple[1])
+    plt.show()
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     eligible_locations = list(get_age_and_household_size_for_all_locations().keys())
@@ -496,6 +591,7 @@ if __name__ == "__main__":
                         help="The number of times to run the simulation.")
     parser.add_argument('--fixed', action='store_true',
                         help="Whether to use a fixed variant or a normal distribution centered around its beta value.")
+    parser.add_argument('--sd', type=float, default=0.016/5, help="Standard deviation of the beta distributions.")
     args = parser.parse_args()
 
     if args.gen:
@@ -524,10 +620,11 @@ if __name__ == "__main__":
                                        n_runs=args.repeats,
                                        fixed_beta=args.fixed,
                                        seed=args.seed)
+        # TODO: add variant to output path
         if args.fixed:
-            output_path = f'fixed_results/f_{args.loc}_seed_{args.seed}.csv'
+            output_path = f'fixed_results/f_{args.loc}_variant_{args.variant}_seed_{args.seed}.csv'
         else:
-            output_path = f'results/{args.loc}_seed_{args.seed}.csv'
+            output_path = f'results/{args.loc}_variant_{args.variant}_seed_{args.seed}.csv'
         results_df.to_csv(output_path)
         print(f'Saving results to {output_path}...')
 
