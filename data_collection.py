@@ -55,14 +55,14 @@ def assign_dominant_variant_and_seed_to_locations(fixed: bool = False, seed: int
     return locations_seed_and_variant
 
 
-def variant_to_beta_dist(variant) -> np.random.normal:
+def variant_to_beta_dist(variant, standard_deviation = BETA_DIST_STANDARD_DEVIATION) -> np.random.normal:
     """Transform variant into a normal distribution with the variant's beta value as mean and 0.016/5 standard dev.
 
     :param variant: A string representing the COVID-19 variant (alpha, beta, delta, or gamma).
+    :param standard_deviation: Standard deviation of the normal distribution from which the beta parameter is drawn.
     :return: A partial function of np.random.normal, preloaded with the parameters for the location's beta dist.
     """
     mean = VARIANT_BETA_DICT[variant]
-    standard_deviation = BETA_DIST_STANDARD_DEVIATION
     return functools.partial(np.random.normal, mean, standard_deviation)
 
 
@@ -624,7 +624,7 @@ if __name__ == "__main__":
         if args.fixed:
             output_path = f'fixed_results/f_{args.loc}_variant_{args.variant}_seed_{args.seed}.csv'
         else:
-            output_path = f'results/{args.loc}_variant_{args.variant}_seed_{args.seed}.csv'
+            output_path = f'results/sd_{args.sd}/{args.loc}_variant_{args.variant}_seed_{args.seed}.csv'
         results_df.to_csv(output_path)
         print(f'Saving results to {output_path}...')
 
