@@ -152,7 +152,7 @@ def plot_location_distributions():
 
 
 def run_comparison(source_pars_dict: dict, follow_up_pars_dict: dict, outputs_of_interest: [str],
-                   n_runs_per_config: int = 1, verbose: int = -1):
+                   n_runs_per_config: int = 1, verbose: int = 1):
     """ Runs Covasim with two different sets of parameters and reports the output of interest for both.
 
     :param source_pars_dict: The parameter dictionary for the first execution.
