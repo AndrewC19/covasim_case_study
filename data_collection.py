@@ -175,7 +175,7 @@ def run_sim_with_pars(pars_dict: dict,
                       desired_outputs: [str],
                       variant: str,
                       n_runs: int = 1,
-                      verbose: int = -1,
+                      verbose: int = 1,
                       fixed_beta: bool = False,
                       seed: int = 0):
     """ Runs a Covasim COVID-19 simulation with a given dict of parameters and collects the desired outputs, which are
