@@ -178,6 +178,7 @@ def run_sim_with_pars(pars_dict: dict,
                       n_runs: int = 1,
                       verbose: int = 1,
                       fixed_beta: bool = False,
+                      standard_deviation: float = BETA_DIST_STANDARD_DEVIATION,
                       seed: int = 0):
     """ Runs a Covasim COVID-19 simulation with a given dict of parameters and collects the desired outputs, which are
     given as a list of output names.
@@ -188,6 +189,7 @@ def run_sim_with_pars(pars_dict: dict,
     :param n_runs: Number of times to run the simulation with a different seed.
     :param verbose: Covasim verbose setting (0 for no output, 1 for output).
     :param fixed_beta: Whether to use a fixed beta value or produce a distribution centered around the variant's beta.
+    :param standard_deviation: Standard deviation of the beta distribution that will be used.
     :param seed: Random seed for reproducibility. This fixes the stream of random seeds used for each run.
     :return results_df: A pandas df containing the results for each run
     """
@@ -201,7 +203,7 @@ def run_sim_with_pars(pars_dict: dict,
                                                                                'agents_in_s', 'agents_in_c',
                                                                                'agents_in_w', 'avg_rel_sus']}
 
-    beta_dist = variant_to_beta_dist(variant)
+    beta_dist = variant_to_beta_dist(variant, standard_deviation)
     for _ in range(n_runs):
         # For every run, generate and use a new a random seed. This is to avoid using Covasim's sequential random seeds.
         rand_seed = random.randint(0, 1e6)
@@ -661,6 +663,7 @@ if __name__ == "__main__":
                                        variant=args.variant,
                                        n_runs=args.repeats,
                                        fixed_beta=args.fixed,
+                                       standard_deviation=args.sd,
                                        seed=args.seed)
         # TODO: add variant to output path
         if args.fixed:
