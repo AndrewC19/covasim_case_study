@@ -1,5 +1,5 @@
 import covasim as cv
-import covasim.data as cvdata
+# import covasim.data as cvdata
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,6 +7,7 @@ import random
 import argparse
 import json
 import functools
+import sys
 
 from covasim.data.loaders import get_age_distribution, get_household_size
 
@@ -532,7 +533,7 @@ def do_household_contacts_affect_infections():
     # print(get_age_and_household_size_for_all_locations())
     # locations = list(get_age_and_household_size_for_all_locations().keys())
     # some_locations = np.random.choice(locations, 50, replace=False)
-    some_locations = ['united kingdom']
+    some_locations = ['nigeria']
     for location in some_locations:
 
         results_list = []
@@ -569,7 +570,17 @@ def do_household_contacts_affect_infections():
         plt.title(location)
         plt.xlabel('Total contacts')
         plt.ylabel('Cumulative infections')
+        plt.ylim(14000, 20000)
+        plt.xlim(300000, 440000)
         plt.show()
+
+
+def logit(p):
+    return np.log(p) - np.log(1 - p)
+
+
+def inv_logit(p):
+    return np.exp(p) / (1 + np.exp(p))
 
 
 def beta_vs_infections():
@@ -582,8 +593,8 @@ def beta_vs_infections():
         infections = sim.summary['cum_infections']
         results_list.append((beta, infections))
     for beta_tuple in results_list:
-        plt.scatter(np.power(beta_tuple[0], 3), beta_tuple[1])
-    plt.xlabel('Beta**3')
+        plt.scatter(inv_logit(beta_tuple[0]), beta_tuple[1])
+    plt.xlabel('inv_logit(Beta)')
     plt.ylabel('Cumulative infections')
     plt.show()
 
@@ -627,6 +638,18 @@ if __name__ == "__main__":
             location_in_covasim = 'timor-leste'  # Edge case: only valid location with hyphen
         elif location_in_covasim == 'reunion':
             location_in_covasim = 'réunion'
+
+        # Check that the location is valid for household data and age:
+        try:
+            get_household_size(location_in_covasim)
+        except ValueError:
+            print("INVALID LOCATION: NO HOUSEHOLD DATA.")
+            sys.exit(1)
+        try:
+            get_age_distribution(location_in_covasim)
+        except ValueError:
+            print("INVALID LOCATION: NO AGE DISTRIBUTION.")
+            sys.exit(1)
 
         results_df = run_sim_with_pars({'location': location_in_covasim,
                                         'pop_size': 1e6,
