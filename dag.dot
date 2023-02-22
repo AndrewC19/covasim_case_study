@@ -1,0 +1,14 @@
+digraph G {
+    rankdir="LR";
+    "location" -> "beta";
+    "beta" -> "cum_infections";
+    "location" -> "avg_contacts_h";
+    "avg_contacts_h" -> "cum_infections";
+    "location" -> "avg_age";
+    "avg_age" -> "avg_rel_sus";
+    "avg_rel_sus" -> "cum_infections";
+    "avg_age" -> "total_contacts_w";
+    "avg_age" -> "total_contacts_s";
+    "total_contacts_w" -> "cum_infections";
+    "total_contacts_s" -> "cum_infections";
+}
