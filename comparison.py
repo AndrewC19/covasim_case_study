@@ -1,14 +1,30 @@
 import pandas as pd
 import numpy as np
+import random
 import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
+import argparse
+
+from scipy.stats import spearmanr, kendalltau
+from pathlib import Path
+from matplotlib import rcParams
 from matplotlib.pyplot import figure
 from ctf_application import increasing_beta
 
-figure(figsize=(25, 8), dpi=100)
+# REQUIRES LATEX INSTALLATION: COMMENT OUT TO REPRODUCE FIGURES WITHOUT LATEX
+rc_fonts = {
+    "font.family": "serif",
+    'font.serif': 'Linux Libertine O',
+    'font.size': 14,
+    "text.usetex": True
+}
+rcParams.update(rc_fonts)
+figure(figsize=(14, 5), dpi=150)
 
 
 def gold_standard_results(df):
+    """Read in gold standard SMT results and return as a dict mapping true effect of increasing beta from 0.016 to
+    0.02672 to each location."""
     gold_standard_dict = {}
     for location in df.index:
         gold_standard_dict[location] = df.at[location, "change_in_infections"]
@@ -18,13 +34,34 @@ def gold_standard_results(df):
 
 
 def naive_regression(df):
-    naive_regression_eqn = "cum_infections ~ np.log(beta)"
+    """Apply a naive regression in which the cumulative infections are regressed against beta."""
+    naive_regression_eqn = "cum_infections ~ np.log(beta) + np.power(np.log(beta), 2)"
     individuals = pd.DataFrame(index=['source', 'follow-up'],
                                data={'beta': [0.016, 0.02672]})
     locations = df["location"].unique()
     results_dict = {}
     for location in locations:
         naive_model = smf.ols(naive_regression_eqn, data=df).fit()
+        print(naive_model.summary())
+        predicted_outcomes = naive_model.predict(individuals)
+        ate = predicted_outcomes['follow-up'] - predicted_outcomes['source']
+        results_dict[location] = ate
+    sorted_results_dict = {k: v for k, v in sorted(results_dict.items())}
+    return sorted_results_dict
+
+
+def location_regression(df):
+    """Apply a naive regression in which the cumulative infections are regressed against beta for each location
+    separately. This is achieved by including an interaction term between beta and location."""
+    naive_regression_eqn = "cum_infections ~ np.log(beta) + np.power(np.log(beta), 2) + C(location) + " \
+                           "np.log(beta):C(location)"
+    individuals = pd.DataFrame(index=['source', 'follow-up'],
+                               data={'beta': [0.016, 0.02672]})
+    locations = df["location"].unique()
+    results_dict = {}
+    for location in locations:
+        naive_model = smf.ols(naive_regression_eqn, data=df).fit()
+        individuals["location"] = location
         predicted_outcomes = naive_model.predict(individuals)
         ate = predicted_outcomes['follow-up'] - predicted_outcomes['source']
         results_dict[location] = ate
@@ -33,6 +70,8 @@ def naive_regression(df):
 
 
 def causal_regression(df):
+    """Perform a causal regression, adjusting for work, school and household contacts, and average relative
+    susceptibility."""
     # causal_regression_eqn = """cum_infections ~ beta + np.power(beta, 2) +
     #                            avg_contacts_s + avg_contacts_w + avg_rel_sus +
     #                            avg_contacts_h + beta:avg_contacts_s +
@@ -60,12 +99,9 @@ def causal_regression(df):
     #                                np.log(beta):np.log(avg_contacts_h) +
     #                                np.log(beta):np.log(avg_rel_sus)
     #                            """
-    to_log = ["beta", "avg_contacts_h", "avg_rel_sus", "total_contacts_w",
-              "total_contacts_s"]
+    to_log = ["beta", "avg_contacts_h", "avg_rel_sus", "total_contacts_w", "total_contacts_s"]
     logged_df = df.copy()
     logged_df[to_log] = np.log(logged_df[to_log])
-    print(logged_df)
-    print(df)
     causal_regression_eqn = """cum_infections ~ beta + np.power(beta, 2) +
                                        avg_contacts_h + np.power(avg_contacts_h, 2) +
                                        avg_rel_sus + np.power(avg_rel_sus, 2) +
@@ -101,6 +137,7 @@ def causal_regression(df):
 
 
 def rmsd(true_values, estimates):
+    """Calculate the root-mean-square deviation (error)."""
     difference = np.array(true_values) - np.array(estimates)
     squared_difference = np.power(difference, 2)
     sum_squared_difference = np.sum(squared_difference)
@@ -110,6 +147,8 @@ def rmsd(true_values, estimates):
 
 
 def rmsd_from_dicts(true_dict, estimate_dict):
+    """Given a dict for true location effects and another for estimated location effects, return the overall
+    root-mean-square deviation (error)."""
     true_values = []
     estimates = []
     for location in true_dict.keys():
@@ -119,62 +158,170 @@ def rmsd_from_dicts(true_dict, estimate_dict):
 
 
 def individual_errors(true_dict, estimate_dict):
+    """Compute the difference between the true and estimated effects for each location."""
     errors = {}
     for location in true_dict.keys():
         errors[location] = estimate_dict[location] - true_dict[location]
     return errors
 
 
-def plot_estimates(gold_standard, naive_estimates, causal_estimates):
+def plot_estimates(gold_standard, naive_estimates, causal_estimates, color='blue', label='Causal Testing Framework',
+                   title=None):
+    """Plot the estimates on a scatter plot, showing location vs. effect for each estimate and the gold standard."""
     ascending_gold_standard = {k: v for k, v in sorted(gold_standard.items(),
                                                        key=lambda item: item[1]
                                                        )}
 
     xs = list(ascending_gold_standard.keys())
+    naive_estimate = min(naive_estimates.values())
+    print(naive_estimate, max(naive_estimates.values()))
+    # Naive estimate should be the same for all locations
+    # Where data is incomplete, we can use any other location estimate as they are the same
+    assert naive_estimate == max(naive_estimates.values())
+
     ys_true = [ascending_gold_standard[location] for location in xs]
-    ys_naive = [naive_estimates[location] for location in xs]
+    ys_naive = [naive_estimates[location] if location in naive_estimates else naive_estimate for location in xs]
     ys_causal = [causal_estimates[location] for location in xs]
 
-    plt.scatter(xs, ys_true, label="Gold Standard", marker='.')
-    plt.scatter(xs, ys_naive, label="Standard Regression", marker='.')
-    plt.scatter(xs, ys_causal, label="Causal Regression", marker='.')
-    plt.xticks(rotation=60, ha='right')
+    locations = xs.copy()
+    capitalised_locations = [loc.capitalize() for loc in locations]
+    plt.scatter(capitalised_locations, ys_true, label="Gold Standard", marker='.', s=8, color='green')
+    plt.scatter(capitalised_locations, ys_naive, label="Standard Regression", marker='.', s=8, color='red')
+    plt.scatter(capitalised_locations, ys_causal, label=label, marker='.', s=8, color=color)
+    plt.xticks(rotation=60, ha='right', fontsize=6)
+    plt.xlim(-1, len(capitalised_locations))
     plt.ylabel("Change in Cumulative Infections")
-    plt.title("Predicting Metamorphic Test Outcomes From Observational Data: 20% of Original Data.")
+    if title:
+        plt.title(title)
     plt.plot()
     plt.legend()
     plt.tight_layout()
-    plt.savefig("ctf_results.pdf", format="pdf", dpi=300)
+    out_pdf = label.replace(" ", "_").lower() + ".pdf"
+    plt.savefig(out_pdf, format="pdf", dpi=150)
     plt.show()
 
 
-if __name__ == "__main__":
-    # Regression equations
-    observational_df = pd.read_csv("results/varied_sds/sd_0.002.csv",
+def rmsd_vs_data(rand_seed: int):
+    """Plot RMSD (error) against the amount of data. This experiment repeatedly applies the CTF to
+    smaller subsets of the original data and calculates the error as the root-mean-square deviation."""
+    results_dict = {"data_points": [],
+                    "rmsd": [],
+                    "spearmans_r": [],
+                    "spearmans_p_val": [],
+                    "kendalls_tau": [],
+                    "kendalls_p_val": []}
+    gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
+    gold_standard_ates = gold_standard_results(gold_standard_df)
+    sorted_gold_standard_ates = {k: v for k, v in sorted(gold_standard_ates.items(), key=lambda item: item[1])}
+
+    # Order gold standard location effects in ascending order
+    gold_standard_locations_by_ascending_effect = list(sorted_gold_standard_ates.keys())
+
+    # Map each location to a number starting with the location with the smallest observed effect
+    ranks_dict = {location: i for i, location in enumerate(gold_standard_locations_by_ascending_effect)}
+    gold_standard_ranks = list(ranks_dict.values())
+
+    # Given the random seed, sample smaller subsets of the original data
+    sample_data("data/observational_data.csv", rand_seed)
+
+    # For each sample, apply the CTF and compute the RMSD and Spearman's rank correlation to the gold standard
+    for x in range(0, 10):
+        if x != 0:
+            data_size = x / 10
+            data = pd.read_csv(f"results/subsets/size_{data_size}/seed_{rand_seed}.csv")
+            ctf_estimates = increasing_beta(f"results/subsets/size_{data_size}/seed_{rand_seed}.csv")
+
+            # List CTF estimates in ascending order
+            sorted_ctf_estimates = {k: v for k, v in sorted(ctf_estimates.items(), key=lambda item: item[1])}
+            ctf_locations_by_ascending_effect = list(sorted_ctf_estimates)
+
+            # Using the gold standard mapping, obtain a list of ranks ready for the CTF for Spearman's rank correlation
+            # and Kendall's Tau
+            ctf_ranks = [ranks_dict[location] for location in ctf_locations_by_ascending_effect]
+
+            # Write results to dict and save
+            spearmans = spearmanr(gold_standard_ranks, ctf_ranks)
+            kendalls = kendalltau(gold_standard_ranks, ctf_ranks)
+            results_dict["spearmans_r"].append(spearmans.correlation)
+            results_dict["spearmans_p_val"].append(spearmans.pvalue)
+            results_dict["kendalls_tau"].append(kendalls.correlation)
+            results_dict["kendalls_p_val"].append(kendalls.pvalue)
+            results_dict["data_points"].append(len(data))
+            results_dict["rmsd"].append(rmsd_from_dicts(gold_standard_ates, ctf_estimates))
+
+    # Write results to CSV
+    df = pd.DataFrame(results_dict)
+    df.to_csv(f"results/subsets/error_by_data_size_seed_{rand_seed}.csv")
+
+
+def plot_rmsd_vs_data(rmsd_csv_path, output_name):
+    df = pd.read_csv(rmsd_csv_path)
+    xs = df['data_points']
+    ys = df['rmsd']
+    plt.xlabel("Data Points")
+    plt.ylabel("RMSD")
+    plt.plot(xs, ys, color='red')
+    plt.savefig(f"{output_name}.pdf", format='pdf', dpi=150)
+    plt.show()
+
+
+def sample_data(data_path: str, rand_seed: int):
+    random.seed(rand_seed)
+    for data_size in range(1, 10):
+        rand_state = random.randint(0, 100000)
+        data_size_frac = data_size / 10
+        df = pd.read_csv(data_path)
+        smaller_df = df.sample(frac=data_size_frac, random_state=rand_state)
+        out_path = f"results/subsets/size_{data_size_frac}/"
+        path = Path(out_path)
+        path.mkdir(parents=True, exist_ok=True)
+        out_csv = path / f"seed_{rand_seed}.csv"
+        smaller_df.to_csv(out_csv)
+
+
+def ctf_results():
+    observational_df = pd.read_csv("data/observational_data.csv",
                                    index_col=0)
     gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
-    naive_ates = naive_regression(observational_df)
-    causal_ates = causal_regression(observational_df)
     gold_standard_ates = gold_standard_results(gold_standard_df)
-    # print("Naive ATEs: ")
-    # print(naive_ates)
-    # print("Naive errors: ")
-    # naive_errors = individual_errors(gold_standard_ates, naive_ates)
-    # print(naive_errors)
-    # print("Naive RMSD: ")
-    # print(rmsd_from_dicts(gold_standard_ates, naive_ates))
-    # print("Causal ATEs: ")
-    # print(causal_ates)
-    # print("Causal errors: ")
-    # causal_errors = individual_errors(gold_standard_ates, causal_ates)
-    # print(causal_errors)
-    # print("Causal RMSD: ")
-    # print(rmsd_from_dicts(gold_standard_ates, causal_ates))
-    # print(causal_ates)
+    naive_ates = naive_regression(observational_df)
+    ctf_estimates = increasing_beta("data/observational_data.csv")
+    plot_estimates(gold_standard_ates, naive_ates, ctf_estimates, title="Results using 4680 data points")
 
-    ctf_estimates = increasing_beta("results/different_sized_data/overall/sd_0.002/size_0.9.csv")
-    plot_estimates(gold_standard_ates, naive_ates, ctf_estimates)
-    print(rmsd_from_dicts(gold_standard_ates, ctf_estimates))
 
+def less_data_ctf_results():
+    observational_df = pd.read_csv("data/observational_data_sample.csv",
+                                   index_col=0)
+    gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
+    gold_standard_ates = gold_standard_results(gold_standard_df)
+    naive_ates = naive_regression(observational_df)
+    ctf_estimates = increasing_beta("data/observational_data_sample.csv")
+    plot_estimates(gold_standard_ates, naive_ates, ctf_estimates, title="Results using 187 data points")
+
+
+def location_results():
+    observational_df = pd.read_csv("data/observational_data.csv",
+                                   index_col=0)
+    gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
+    gold_standard_ates = gold_standard_results(gold_standard_df)
+    naive_ates = naive_regression(observational_df)
+    location_ates = location_regression(observational_df)
+    plot_estimates(gold_standard_ates, naive_ates, location_ates, label="Location Regression", color="black")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--ctf", action="store_true", help="Reproduce CTF results.")
+    parser.add_argument("--loc", action="store_true", help="Reproduce location regression results.")
+    parser.add_argument("--seed", required=False, help="Seed for sampling subsets of data and calculating RMSD and rank"
+                                                       " correlation of CTF results vs. the gold standard.")
+    args = parser.parse_args()
+    if args.ctf:
+        ctf_results()
+        less_data_ctf_results()
+    if args.loc:
+        location_results()
+    if args.seed:
+        rmsd_vs_data(args.seed)
 
 

@@ -1,4 +1,5 @@
 import numpy as np
+import random
 import pandas as pd
 from causal_testing.testing.causal_test_case import CausalTestCase, BaseTestCase
 from causal_testing.specification.causal_dag import CausalDAG, Scenario
@@ -11,6 +12,7 @@ from causal_testing.testing.estimators import LinearRegressionEstimator
 
 
 def less_data_per_location(csv_path: str, proportion: float):
+    random.seed(0)
     df = pd.read_csv(csv_path)
     locations = df["location"].unique()
     for location in locations:
@@ -21,9 +23,9 @@ def less_data_per_location(csv_path: str, proportion: float):
 
 
 def less_data_overall(csv_path: str, proportion: float):
+    random.seed(0)
     df = pd.read_csv(csv_path)
     return df.sample(frac=proportion)
-
 
 
 def increasing_beta(csv_path: str):
@@ -121,7 +123,4 @@ def increasing_beta(csv_path: str):
 
 
 if __name__ == "__main__":
-    for data_size in [0.005]:
-        smaller_df = less_data_overall("results/varied_sds/sd_0.002.csv", data_size)
-        smaller_df.to_csv(f"results/different_sized_data/overall/sd_0.002/size_{data_size}.csv")
-    # estimates = increasing_beta("results/varied_sds/sd_0.002.csv")
+    estimates = increasing_beta("data/observational_data.csv")
