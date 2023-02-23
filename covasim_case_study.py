@@ -167,6 +167,7 @@ def individual_errors(true_dict, estimate_dict):
 def plot_estimates(gold_standard, naive_estimates, causal_estimates, color='blue', label='Causal Testing Framework',
                    title=None):
     """Plot the estimates on a scatter plot, showing location vs. effect for each estimate and the gold standard."""
+    figure(figsize=(14, 5), dpi=150)
     ascending_gold_standard = {k: v for k, v in sorted(gold_standard.items(),
                                                        key=lambda item: item[1]
                                                        )}
@@ -364,7 +365,8 @@ def less_data_ctf_results():
     gold_standard_ates = gold_standard_results(gold_standard_df)
     naive_ates = naive_regression(observational_df)
     ctf_estimates = increasing_beta("data/observational_data_sample.csv")
-    plot_estimates(gold_standard_ates, naive_ates, ctf_estimates, title="Results using 187 data points")
+    plot_estimates(gold_standard_ates, naive_ates, ctf_estimates, label="Less data Causal Testing Framework",
+                   title="Results using 187 data points")
 
 
 def location_results():

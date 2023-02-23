@@ -9,4 +9,10 @@ module load Anaconda3/5.3.0
 source activate covenv
 
 # $1 is the seed
-python comparison.py --seed $1
+# $2 is whether to run with less data or not
+if [ $2 = true ] || [ $2 = "True" ] || [ $2 = 1 ]
+then
+  python covasim_case_study.py --seed $1 --ld
+else
+  python covasim_case_study.py --seed $1
+fi
