@@ -32,7 +32,7 @@ def increasing_beta(csv_path: str):
     # We start by creating our Causal Specification. This means we need to provide the causal DAG, the inputs, the
     # outputs, and any constraints.
     dag = CausalDAG("dag.dot")
-    ref_df = pd.read_csv("results/varied_sds/sd_0.002.csv")
+    ref_df = pd.read_csv("data/observational_data.csv")
 
     location = Input('location', str)
     beta = Input('beta', float)

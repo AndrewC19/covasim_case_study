@@ -1,626 +1,626 @@
 {
-  "chad": {
-    "variant": "alpha",
-    "seed": 665989
-  },
-  "zimbabwe": {
-    "variant": "alpha",
-    "seed": 176103
-  },
-  "guatemala": {
-    "variant": "delta",
-    "seed": 659766
-  },
-  "norway": {
-    "variant": "delta",
-    "seed": 262585
-  },
-  "afghanistan": {
-    "variant": "beta",
-    "seed": 421151
-  },
-  "mauritius": {
-    "variant": "delta",
-    "seed": 663745
-  },
-  "benin": {
-    "variant": "gamma",
-    "seed": 722993
-  },
-  "cameroon": {
-    "variant": "delta",
-    "seed": 624386
-  },
-  "bangladesh": {
-    "variant": "gamma",
-    "seed": 539512
-  },
-  "guyana": {
-    "variant": "gamma",
-    "seed": 584907
-  },
-  "republic_of_korea": {
-    "variant": "beta",
-    "seed": 698024
-  },
-  "armenia": {
-    "variant": "alpha",
-    "seed": 124705
-  },
-  "bahamas": {
-    "variant": "gamma",
-    "seed": 173337
-  },
-  "russia": {
-    "variant": "beta",
-    "seed": 411263
-  },
-  "ukraine": {
-    "variant": "delta",
-    "seed": 513648
-  },
-  "french_guiana": {
-    "variant": "beta",
-    "seed": 620917
-  },
-  "mali": {
-    "variant": "alpha",
-    "seed": 695803
-  },
-  "nepal": {
-    "variant": "gamma",
-    "seed": 847576
-  },
-  "nicaragua": {
-    "variant": "gamma",
-    "seed": 363574
-  },
-  "cambodia": {
-    "variant": "beta",
-    "seed": 926702
-  },
-  "tajikistan": {
-    "variant": "delta",
-    "seed": 313831
-  },
-  "greece": {
-    "variant": "alpha",
-    "seed": 744753
-  },
-  "jordan": {
-    "variant": "alpha",
-    "seed": 768200
-  },
-  "switzerland": {
-    "variant": "gamma",
-    "seed": 189447
-  },
-  "kazakhstan": {
-    "variant": "alpha",
-    "seed": 868538
-  },
-  "turkey": {
-    "variant": "alpha",
-    "seed": 496135
-  },
-  "suriname": {
-    "variant": "alpha",
-    "seed": 170221
-  },
-  "malta": {
-    "variant": "alpha",
-    "seed": 502510
-  },
-  "japan": {
-    "variant": "beta",
-    "seed": 233992
-  },
-  "south_africa": {
-    "variant": "beta",
-    "seed": 977397
-  },
-  "trinidad_and_tobago": {
-    "variant": "delta",
-    "seed": 14672
-  },
-  "uganda": {
-    "variant": "alpha",
-    "seed": 390863
-  },
-  "united_kingdom": {
-    "variant": "beta",
-    "seed": 234618
-  },
-  "martinique": {
-    "variant": "alpha",
-    "seed": 597840
-  },
-  "madagascar": {
-    "variant": "gamma",
-    "seed": 547720
-  },
   "el_salvador": {
-    "variant": "gamma",
-    "seed": 264081
-  },
-  "lithuania": {
-    "variant": "alpha",
-    "seed": 195431
-  },
-  "cyprus": {
     "variant": "beta",
-    "seed": 687947
+    "seed": 162590
   },
-  "guadeloupe": {
-    "variant": "alpha",
-    "seed": 630722
-  },
-  "slovakia": {
-    "variant": "delta",
-    "seed": 8362
-  },
-  "tanzania": {
+  "israel": {
     "variant": "beta",
-    "seed": 830964
+    "seed": 271917
   },
-  "montenegro": {
-    "variant": "gamma",
-    "seed": 787053
-  },
-  "argentina": {
-    "variant": "alpha",
-    "seed": 200152
-  },
-  "south_korea": {
-    "variant": "gamma",
-    "seed": 506725
-  },
-  "korea": {
-    "variant": "delta",
-    "seed": 535967
-  },
-  "jamaica": {
-    "variant": "alpha",
-    "seed": 183772
-  },
-  "hungary": {
+  "aruba": {
     "variant": "beta",
-    "seed": 650898
-  },
-  "poland": {
-    "variant": "alpha",
-    "seed": 855624
-  },
-  "china": {
-    "variant": "gamma",
-    "seed": 787612
-  },
-  "maldives": {
-    "variant": "gamma",
-    "seed": 474537
-  },
-  "yemen": {
-    "variant": "alpha",
-    "seed": 903695
-  },
-  "ireland": {
-    "variant": "delta",
-    "seed": 863780
-  },
-  "cuba": {
-    "variant": "alpha",
-    "seed": 634195
-  },
-  "gabon": {
-    "variant": "delta",
-    "seed": 259400
-  },
-  "mozambique": {
-    "variant": "beta",
-    "seed": 909277
-  },
-  "comoros": {
-    "variant": "delta",
-    "seed": 520602
-  },
-  "france": {
-    "variant": "gamma",
-    "seed": 587256
-  },
-  "sao_tome_and_principe": {
-    "variant": "alpha",
-    "seed": 814539
-  },
-  "georgia": {
-    "variant": "beta",
-    "seed": 14935
-  },
-  "kenya": {
-    "variant": "alpha",
-    "seed": 196670
-  },
-  "angola": {
-    "variant": "gamma",
-    "seed": 765533
-  },
-  "burkina": {
-    "variant": "beta",
-    "seed": 817144
-  },
-  "sudan": {
-    "variant": "delta",
-    "seed": 193290
-  },
-  "rwanda": {
-    "variant": "alpha",
-    "seed": 56816
+    "seed": 821111
   },
   "liberia": {
     "variant": "delta",
-    "seed": 622002
+    "seed": 682738
   },
-  "bolivia": {
+  "ukraine": {
     "variant": "gamma",
-    "seed": 252849
+    "seed": 441557
   },
-  "paraguay": {
-    "variant": "gamma",
-    "seed": 671339
-  },
-  "belarus": {
-    "variant": "delta",
-    "seed": 468644
-  },
-  "nigeria": {
-    "variant": "delta",
-    "seed": 199333
-  },
-  "singapore": {
-    "variant": "gamma",
-    "seed": 469549
-  },
-  "burkina_faso": {
+  "tajikistan": {
     "variant": "beta",
-    "seed": 316082
-  },
-  "papua_new_guinea": {
-    "variant": "delta",
-    "seed": 692761
-  },
-  "usa": {
-    "variant": "delta",
-    "seed": 356714
-  },
-  "puerto_rico": {
-    "variant": "delta",
-    "seed": 532216
-  },
-  "brazil": {
-    "variant": "beta",
-    "seed": 259084
-  },
-  "lesotho": {
-    "variant": "alpha",
-    "seed": 379213
-  },
-  "spain": {
-    "variant": "delta",
-    "seed": 684848
-  },
-  "luxembourg": {
-    "variant": "gamma",
-    "seed": 132764
-  },
-  "oman": {
-    "variant": "gamma",
-    "seed": 972545
-  },
-  "philippines": {
-    "variant": "alpha",
-    "seed": 333644
-  },
-  "vietnam": {
-    "variant": "beta",
-    "seed": 503750
-  },
-  "czechia": {
-    "variant": "beta",
-    "seed": 213791
-  },
-  "pakistan": {
-    "variant": "alpha",
-    "seed": 211874
-  },
-  "namibia": {
-    "variant": "gamma",
-    "seed": 200456
-  },
-  "mexico": {
-    "variant": "beta",
-    "seed": 47653
-  },
-  "iraq": {
-    "variant": "gamma",
-    "seed": 425559
-  },
-  "botswana": {
-    "variant": "delta",
-    "seed": 523396
-  },
-  "morocco": {
-    "variant": "alpha",
-    "seed": 512159
-  },
-  "congo": {
-    "variant": "beta",
-    "seed": 864460
-  },
-  "gambia": {
-    "variant": "beta",
-    "seed": 54552
-  },
-  "niger": {
-    "variant": "beta",
-    "seed": 649181
-  },
-  "reunion": {
-    "variant": "alpha",
-    "seed": 602574
-  },
-  "latvia": {
-    "variant": "delta",
-    "seed": 961902
-  },
-  "finland": {
-    "variant": "alpha",
-    "seed": 545596
-  },
-  "guinea": {
-    "variant": "beta",
-    "seed": 764547
-  },
-  "austria": {
-    "variant": "gamma",
-    "seed": 409454
-  },
-  "timor_leste": {
-    "variant": "alpha",
-    "seed": 281992
-  },
-  "costa_rica": {
-    "variant": "gamma",
-    "seed": 918492
-  },
-  "estonia": {
-    "variant": "delta",
-    "seed": 828267
-  },
-  "kyrgyzstan": {
-    "variant": "beta",
-    "seed": 300594
-  },
-  "sierra_leone": {
-    "variant": "beta",
-    "seed": 139158
-  },
-  "india": {
-    "variant": "delta",
-    "seed": 380629
-  },
-  "slovenia": {
-    "variant": "beta",
-    "seed": 29149
-  },
-  "new_zealand": {
-    "variant": "beta",
-    "seed": 555020
-  },
-  "italy": {
-    "variant": "delta",
-    "seed": 97758
-  },
-  "togo": {
-    "variant": "gamma",
-    "seed": 645072
-  },
-  "samoa": {
-    "variant": "beta",
-    "seed": 822158
+    "seed": 574095
   },
   "palestine": {
     "variant": "beta",
-    "seed": 563679
+    "seed": 94554
   },
-  "haiti": {
-    "variant": "beta",
-    "seed": 498320
-  },
-  "republic_of_moldova": {
-    "variant": "delta",
-    "seed": 512533
-  },
-  "malawi": {
-    "variant": "delta",
-    "seed": 204203
-  },
-  "ecuador": {
-    "variant": "gamma",
-    "seed": 725686
-  },
-  "panama": {
-    "variant": "delta",
-    "seed": 39645
-  },
-  "thailand": {
-    "variant": "gamma",
-    "seed": 584881
-  },
-  "australia": {
+  "austria": {
     "variant": "alpha",
-    "seed": 783304
-  },
-  "uruguay": {
-    "variant": "alpha",
-    "seed": 284760
-  },
-  "netherlands": {
-    "variant": "alpha",
-    "seed": 791132
-  },
-  "belgium": {
-    "variant": "beta",
-    "seed": 283726
-  },
-  "fiji": {
-    "variant": "beta",
-    "seed": 339512
-  },
-  "moldova": {
-    "variant": "beta",
-    "seed": 733920
-  },
-  "ethiopia": {
-    "variant": "gamma",
-    "seed": 598241
+    "seed": 866901
   },
   "peru": {
-    "variant": "alpha",
-    "seed": 464411
-  },
-  "egypt": {
-    "variant": "beta",
-    "seed": 894070
-  },
-  "united_republic_of_tanzania": {
-    "variant": "beta",
-    "seed": 662629
-  },
-  "romania": {
-    "variant": "beta",
-    "seed": 38779
-  },
-  "iran": {
-    "variant": "gamma",
-    "seed": 114893
-  },
-  "russian_federation": {
     "variant": "delta",
-    "seed": 55531
+    "seed": 157391
   },
-  "south_sudan": {
-    "variant": "alpha",
-    "seed": 165965
-  },
-  "malaysia": {
-    "variant": "gamma",
-    "seed": 383581
-  },
-  "senegal": {
-    "variant": "beta",
-    "seed": 347939
-  },
-  "central_african_republic": {
-    "variant": "beta",
-    "seed": 817760
-  },
-  "ghana": {
-    "variant": "gamma",
-    "seed": 538231
-  },
-  "israel": {
-    "variant": "gamma",
-    "seed": 286738
-  },
-  "croatia": {
-    "variant": "gamma",
-    "seed": 252474
-  },
-  "seychelles": {
-    "variant": "beta",
-    "seed": 868695
-  },
-  "myanmar": {
+  "chile": {
     "variant": "delta",
-    "seed": 219896
-  },
-  "azerbaijan": {
-    "variant": "alpha",
-    "seed": 828850
+    "seed": 419911
   },
   "colombia": {
     "variant": "gamma",
-    "seed": 435257
+    "seed": 550212
   },
-  "chile": {
-    "variant": "gamma",
-    "seed": 487636
-  },
-  "burundi": {
+  "jamaica": {
     "variant": "alpha",
-    "seed": 506272
+    "seed": 840044
   },
-  "aruba": {
-    "variant": "alpha",
-    "seed": 639467
-  },
-  "zambia": {
-    "variant": "gamma",
-    "seed": 876452
-  },
-  "state_of_palestine": {
-    "variant": "alpha",
-    "seed": 69607
-  },
-  "canada": {
-    "variant": "gamma",
-    "seed": 253106
-  },
-  "mayotte": {
+  "thailand": {
     "variant": "delta",
-    "seed": 547951
+    "seed": 457015
   },
-  "serbia": {
-    "variant": "beta",
-    "seed": 926194
-  },
-  "mongolia": {
-    "variant": "beta",
-    "seed": 309257
-  },
-  "albania": {
+  "azerbaijan": {
     "variant": "gamma",
-    "seed": 436113
+    "seed": 237090
   },
-  "portugal": {
+  "costa_rica": {
     "variant": "gamma",
-    "seed": 274294
+    "seed": 238829
   },
   "bulgaria": {
+    "variant": "beta",
+    "seed": 835265
+  },
+  "mayotte": {
+    "variant": "alpha",
+    "seed": 747038
+  },
+  "botswana": {
+    "variant": "alpha",
+    "seed": 654112
+  },
+  "burundi": {
+    "variant": "beta",
+    "seed": 656245
+  },
+  "guadeloupe": {
+    "variant": "delta",
+    "seed": 449706
+  },
+  "nigeria": {
+    "variant": "beta",
+    "seed": 122948
+  },
+  "germany": {
+    "variant": "alpha",
+    "seed": 493155
+  },
+  "angola": {
+    "variant": "beta",
+    "seed": 580022
+  },
+  "iraq": {
+    "variant": "alpha",
+    "seed": 632510
+  },
+  "serbia": {
     "variant": "gamma",
-    "seed": 353842
+    "seed": 745997
   },
-  "uzbekistan": {
-    "variant": "beta",
-    "seed": 18340
+  "rwanda": {
+    "variant": "delta",
+    "seed": 950521
   },
-  "dominican_republic": {
-    "variant": "beta",
-    "seed": 186868
-  },
-  "honduras": {
-    "variant": "beta",
-    "seed": 747779
+  "switzerland": {
+    "variant": "alpha",
+    "seed": 238835
   },
   "venezuela": {
+    "variant": "gamma",
+    "seed": 862894
+  },
+  "japan": {
+    "variant": "gamma",
+    "seed": 790748
+  },
+  "spain": {
+    "variant": "delta",
+    "seed": 744945
+  },
+  "slovenia": {
+    "variant": "alpha",
+    "seed": 861275
+  },
+  "kenya": {
     "variant": "beta",
-    "seed": 483131
+    "seed": 870183
+  },
+  "myanmar": {
+    "variant": "delta",
+    "seed": 502032
+  },
+  "timor_leste": {
+    "variant": "beta",
+    "seed": 258085
+  },
+  "finland": {
+    "variant": "gamma",
+    "seed": 722194
+  },
+  "suriname": {
+    "variant": "beta",
+    "seed": 505727
+  },
+  "mali": {
+    "variant": "delta",
+    "seed": 597656
+  },
+  "central_african_republic": {
+    "variant": "delta",
+    "seed": 484917
+  },
+  "jordan": {
+    "variant": "gamma",
+    "seed": 24811
+  },
+  "congo": {
+    "variant": "alpha",
+    "seed": 326257
+  },
+  "moldova": {
+    "variant": "alpha",
+    "seed": 618044
+  },
+  "latvia": {
+    "variant": "gamma",
+    "seed": 992074
+  },
+  "italy": {
+    "variant": "beta",
+    "seed": 233079
+  },
+  "mozambique": {
+    "variant": "alpha",
+    "seed": 76893
+  },
+  "senegal": {
+    "variant": "alpha",
+    "seed": 583563
+  },
+  "malta": {
+    "variant": "gamma",
+    "seed": 596925
+  },
+  "cuba": {
+    "variant": "delta",
+    "seed": 578467
+  },
+  "burkina_faso": {
+    "variant": "gamma",
+    "seed": 704598
+  },
+  "mauritius": {
+    "variant": "alpha",
+    "seed": 471309
+  },
+  "lesotho": {
+    "variant": "gamma",
+    "seed": 759016
+  },
+  "united_republic_of_tanzania": {
+    "variant": "gamma",
+    "seed": 38665
+  },
+  "cameroon": {
+    "variant": "beta",
+    "seed": 325524
+  },
+  "republic_of_korea": {
+    "variant": "gamma",
+    "seed": 31993
+  },
+  "yemen": {
+    "variant": "beta",
+    "seed": 101059
+  },
+  "egypt": {
+    "variant": "gamma",
+    "seed": 358580
+  },
+  "uruguay": {
+    "variant": "alpha",
+    "seed": 667935
+  },
+  "honduras": {
+    "variant": "gamma",
+    "seed": 656537
+  },
+  "zambia": {
+    "variant": "alpha",
+    "seed": 394939
+  },
+  "bolivia": {
+    "variant": "delta",
+    "seed": 622085
+  },
+  "gambia": {
+    "variant": "delta",
+    "seed": 89515
+  },
+  "united_kingdom": {
+    "variant": "alpha",
+    "seed": 445980
+  },
+  "zimbabwe": {
+    "variant": "gamma",
+    "seed": 588564
+  },
+  "india": {
+    "variant": "delta",
+    "seed": 456063
+  },
+  "bangladesh": {
+    "variant": "delta",
+    "seed": 167572
+  },
+  "namibia": {
+    "variant": "delta",
+    "seed": 674032
+  },
+  "seychelles": {
+    "variant": "gamma",
+    "seed": 54561
+  },
+  "kyrgyzstan": {
+    "variant": "gamma",
+    "seed": 754774
+  },
+  "cyprus": {
+    "variant": "alpha",
+    "seed": 271254
+  },
+  "turkey": {
+    "variant": "delta",
+    "seed": 271839
+  },
+  "ireland": {
+    "variant": "gamma",
+    "seed": 363206
+  },
+  "new_zealand": {
+    "variant": "alpha",
+    "seed": 684493
+  },
+  "belarus": {
+    "variant": "delta",
+    "seed": 549974
+  },
+  "comoros": {
+    "variant": "beta",
+    "seed": 903639
+  },
+  "australia": {
+    "variant": "delta",
+    "seed": 48309
+  },
+  "georgia": {
+    "variant": "gamma",
+    "seed": 865015
+  },
+  "canada": {
+    "variant": "alpha",
+    "seed": 651212
+  },
+  "gabon": {
+    "variant": "gamma",
+    "seed": 594404
+  },
+  "samoa": {
+    "variant": "gamma",
+    "seed": 65951
   },
   "indonesia": {
     "variant": "beta",
-    "seed": 530251
+    "seed": 959461
   },
-  "germany": {
+  "malaysia": {
+    "variant": "gamma",
+    "seed": 998994
+  },
+  "hungary": {
+    "variant": "gamma",
+    "seed": 596993
+  },
+  "nepal": {
+    "variant": "delta",
+    "seed": 285457
+  },
+  "russian_federation": {
+    "variant": "delta",
+    "seed": 461513
+  },
+  "norway": {
+    "variant": "alpha",
+    "seed": 354263
+  },
+  "china": {
     "variant": "beta",
-    "seed": 590607
+    "seed": 83171
+  },
+  "singapore": {
+    "variant": "delta",
+    "seed": 208340
+  },
+  "nicaragua": {
+    "variant": "alpha",
+    "seed": 547540
+  },
+  "cambodia": {
+    "variant": "beta",
+    "seed": 11584
+  },
+  "south_korea": {
+    "variant": "alpha",
+    "seed": 120548
+  },
+  "south_sudan": {
+    "variant": "gamma",
+    "seed": 78614
+  },
+  "guinea": {
+    "variant": "alpha",
+    "seed": 834937
+  },
+  "papua_new_guinea": {
+    "variant": "beta",
+    "seed": 398525
+  },
+  "iran": {
+    "variant": "alpha",
+    "seed": 780073
+  },
+  "malawi": {
+    "variant": "beta",
+    "seed": 559619
+  },
+  "morocco": {
+    "variant": "beta",
+    "seed": 8962
+  },
+  "puerto_rico": {
+    "variant": "alpha",
+    "seed": 656039
+  },
+  "croatia": {
+    "variant": "alpha",
+    "seed": 803978
+  },
+  "benin": {
+    "variant": "delta",
+    "seed": 230710
+  },
+  "mexico": {
+    "variant": "delta",
+    "seed": 689112
+  },
+  "montenegro": {
+    "variant": "gamma",
+    "seed": 348997
+  },
+  "usa": {
+    "variant": "delta",
+    "seed": 435666
+  },
+  "brazil": {
+    "variant": "alpha",
+    "seed": 310758
+  },
+  "czechia": {
+    "variant": "delta",
+    "seed": 555815
+  },
+  "afghanistan": {
+    "variant": "beta",
+    "seed": 10390
+  },
+  "estonia": {
+    "variant": "delta",
+    "seed": 577425
+  },
+  "haiti": {
+    "variant": "beta",
+    "seed": 528455
+  },
+  "mongolia": {
+    "variant": "gamma",
+    "seed": 237253
+  },
+  "ethiopia": {
+    "variant": "delta",
+    "seed": 31716
+  },
+  "south_africa": {
+    "variant": "beta",
+    "seed": 870121
+  },
+  "bahamas": {
+    "variant": "alpha",
+    "seed": 828181
+  },
+  "madagascar": {
+    "variant": "gamma",
+    "seed": 102956
+  },
+  "philippines": {
+    "variant": "delta",
+    "seed": 874707
+  },
+  "panama": {
+    "variant": "delta",
+    "seed": 316679
+  },
+  "niger": {
+    "variant": "beta",
+    "seed": 62232
+  },
+  "netherlands": {
+    "variant": "delta",
+    "seed": 884614
+  },
+  "argentina": {
+    "variant": "alpha",
+    "seed": 619492
+  },
+  "korea": {
+    "variant": "gamma",
+    "seed": 405675
+  },
+  "chad": {
+    "variant": "delta",
+    "seed": 429378
+  },
+  "uganda": {
+    "variant": "gamma",
+    "seed": 191183
+  },
+  "french_guiana": {
+    "variant": "delta",
+    "seed": 537263
+  },
+  "luxembourg": {
+    "variant": "delta",
+    "seed": 992343
+  },
+  "kazakhstan": {
+    "variant": "delta",
+    "seed": 563291
+  },
+  "guatemala": {
+    "variant": "alpha",
+    "seed": 838942
+  },
+  "romania": {
+    "variant": "delta",
+    "seed": 601547
+  },
+  "paraguay": {
+    "variant": "gamma",
+    "seed": 157445
+  },
+  "slovakia": {
+    "variant": "gamma",
+    "seed": 606223
+  },
+  "ecuador": {
+    "variant": "gamma",
+    "seed": 999098
+  },
+  "poland": {
+    "variant": "beta",
+    "seed": 595208
+  },
+  "portugal": {
+    "variant": "alpha",
+    "seed": 428749
+  },
+  "martinique": {
+    "variant": "gamma",
+    "seed": 763745
+  },
+  "albania": {
+    "variant": "beta",
+    "seed": 370147
+  },
+  "dominican_republic": {
+    "variant": "beta",
+    "seed": 735092
+  },
+  "trinidad_and_tobago": {
+    "variant": "gamma",
+    "seed": 528150
+  },
+  "russia": {
+    "variant": "beta",
+    "seed": 314125
+  },
+  "sudan": {
+    "variant": "gamma",
+    "seed": 780806
+  },
+  "sao_tome_and_principe": {
+    "variant": "alpha",
+    "seed": 473091
+  },
+  "france": {
+    "variant": "alpha",
+    "seed": 204260
+  },
+  "republic_of_moldova": {
+    "variant": "delta",
+    "seed": 769907
+  },
+  "tanzania": {
+    "variant": "gamma",
+    "seed": 905038
+  },
+  "guyana": {
+    "variant": "gamma",
+    "seed": 369854
+  },
+  "oman": {
+    "variant": "delta",
+    "seed": 891618
+  },
+  "pakistan": {
+    "variant": "gamma",
+    "seed": 482106
+  },
+  "state_of_palestine": {
+    "variant": "beta",
+    "seed": 15899
+  },
+  "greece": {
+    "variant": "beta",
+    "seed": 915391
+  },
+  "vietnam": {
+    "variant": "delta",
+    "seed": 744840
+  },
+  "ghana": {
+    "variant": "beta",
+    "seed": 567916
+  },
+  "fiji": {
+    "variant": "alpha",
+    "seed": 493462
+  },
+  "reunion": {
+    "variant": "delta",
+    "seed": 804622
+  },
+  "armenia": {
+    "variant": "delta",
+    "seed": 615144
+  },
+  "togo": {
+    "variant": "gamma",
+    "seed": 847047
+  },
+  "uzbekistan": {
+    "variant": "alpha",
+    "seed": 515885
+  },
+  "maldives": {
+    "variant": "alpha",
+    "seed": 526863
+  },
+  "sierra_leone": {
+    "variant": "alpha",
+    "seed": 713463
+  },
+  "lithuania": {
+    "variant": "alpha",
+    "seed": 896440
+  },
+  "belgium": {
+    "variant": "alpha",
+    "seed": 844185
+  },
+  "burkina": {
+    "variant": "gamma",
+    "seed": 860258
   }
 }
