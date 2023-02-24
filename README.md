@@ -16,7 +16,7 @@ small amounts of data.
   - `smt_data.csv` contains 9360 executions of Covasim: 30 executions per location (of which there are 156) per variant (of which there are two).
   - `smt_results.csv` contains the results of applying SMT to each location in Covasim.
   - `error_by_size.csv` contains the error (root-mean-square deviation, Spearman's rho, and Kendall's tau) corresponding to applications of the CTF to different amounts of data, ranging from 9 data points of the full data set to 4671 data points.
-  - `error_by_size_first_500.csv` contains the same error as the above csv, but focuses on a smaller range of data points (more samples over a smaller range).
+  - `error_by_size_first_500.csv` contains the same data as the above csv, but focuses on a smaller range of data points (more samples over a smaller range).
   - `location_variants_seed_0.json` maps each location to a COVID-19 variant and a randomly generated seed. These settings are used to produce `observational_data.csv`.
   - `location_fixed_variants_seed_0.json` maps each location to two COVID-19 variants (beta and alpha) and a pair of random seeds. These settings are used to produce `smt_results.csv`.
 - `figures/` contains all of the figures that can be produced from this code.
