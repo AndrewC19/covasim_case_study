@@ -16,7 +16,7 @@ source activate covenv
 # $6 is the standard deviation of the distributions from which beta is drawn. This is used when fixed beta is false.
 if [ $5 = true ] || [ $5 = "True" ] || [ $5 = 1 ]
 then
-  python scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --fixed
+  sbatch scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --fixed
 else
-  python scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --sd $6
+  sbatch scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --sd $6
 fi
