@@ -57,6 +57,8 @@ Install requirements
 pip install -r requirements.txt
 ```
 
+In addition to these requirements, the CTF requires pygraphviz which requires a graphviz installation. The method for installing these requirements 
+vary for different operating systems. Instructions can be found here: https://pygraphviz.github.io/documentation/stable/install.html
 #### Data Analysis
 To reproduce the figures in `figures/` from the data in `data/`, the following commands can be used.
 
