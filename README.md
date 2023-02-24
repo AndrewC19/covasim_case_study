@@ -1,5 +1,4 @@
-# Testing Causality in Scientific Modelling Software
-## Covasim Case Study
+# Testing Causality in Scientific Modelling Software: Covasim Case Study
 
 This repository contains the code for the Covasim case study from our paper entitled: "Testing Causality in Scientific Modelling Software."
 
@@ -16,18 +15,20 @@ small amounts of data.
   - `smt_data.csv` contains 9360 executions of Covasim: 30 executions per location (of which there are 156) per variant (of which there are two).
   - `smt_results.csv` contains the results of applying SMT to each location in Covasim.
   - `error_by_size.csv` contains the error (root-mean-square deviation, Spearman's rho, and Kendall's tau) corresponding to applications of the CTF to different amounts of data, ranging from 9 data points of the full data set to 4671 data points.
-  - `error_by_size_first_500.csv` contains the same error as the above csv, but focuses on a smaller range of data points (more samples over a smaller range).
+  - `error_by_size_first_500.csv` contains the same data as the above csv, but focuses on a smaller range of data points (more samples over a smaller range).
   - `location_variants_seed_0.json` maps each location to a COVID-19 variant and a randomly generated seed. These settings are used to produce `observational_data.csv`.
   - `location_fixed_variants_seed_0.json` maps each location to two COVID-19 variants (beta and alpha) and a pair of random seeds. These settings are used to produce `smt_results.csv`.
 - `figures/` contains all of the figures that can be produced from this code.
 - `scripts/` contains the various scripts used in data collection and analysis.
   - `bash/` contains bash scripts used to collect the data via HPC.
-  - `python` contains python scripts used to collect and analyse the data.
+  - `python/` contains python scripts used to collect and analyse the data.
     - `data_collection.py` is used to collect both observational data and SMT data from Covasim.
     - `ctf_application.py` applies the CTF to our data.
     - `smt.py` applies SMT to the SMT data collected from Covasim.
     - `utils.py` contains various utils for cleaning and preparing the data.
     - `covasim_case_study.py` contains the code for analysing the collected data.
+    - `subsets.py` contains the code for combining error data to form `error_by_size.csv`.
+    - `observational_data.py` contains the code for combining observational data for each location into `observational_data.csv`.
 - `dag.dot` is the Causal DAG for this case study.
 - `requirements.txt` lists the requirements for this case study.
 - `results/` is an empty directory that will be populated with observational data results during data collection.
@@ -133,7 +134,7 @@ python scripts/python/covasim_case_study.py --seed $1
 Where `$1` is the seed used for sampling the subsets.
 This script will create 500 subsets of the observational data and apply the CTF to each one.
 The subsets are saved under `results/subsets` and the results are saved in a file `results/data_size_seed_x.csv`, where `x` is the selected seed.
-We then run `python scripts/python/subsets.py` which combines these results into `data/error_by_size.csv`.
+The bash script `scripts/bash/sample_data.sh`repeats this for seed 1 to 30. We then run `python scripts/python/subsets.py` which combines these results into `data/error_by_size.csv`.
 
 To reproduce the same data but focusing on fewer data points in greater detail, we can run the following python command:
 ```
