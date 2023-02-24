@@ -8,7 +8,7 @@ Our goal here is to investigate whether the CTF can accurately estimate a series
 test (SMT) outcomes using causal knowledge and observational data. We also aim to identify whether accurate inferences can be achieved using 
 small amounts of data.
 
-### Repository contents
+## Repository contents
 - `data/` contains all of the data collected for the case study. This data is used to create the figures.
   - `observational_data.csv` contains 4680 executions of Covasim (30 per location).
   - `observational_data_sample.csv` is a sample of the above data containing 187 executions.
@@ -29,13 +29,13 @@ small amounts of data.
     - `covasim_case_study.py` contains the code for analysing the collected data.
     - `subsets.py` contains the code for combining error data to form `error_by_size.csv`.
     - `observational_data.py` contains the code for combining observational data for each location into `observational_data.csv`.
-- `dag.dot` is the Causal DAG for this case study.
+- `dag.dot` is the causal DAG for this case study.
 - `requirements.txt` lists the requirements for this case study.
 - `results/` is an empty directory that will be populated with observational data results during data collection.
 - `fixed_results/` is an empty directory that will be populated with SMT data during data collection.
 
-### Reproducing the Case Study
-#### Installation
+## Reproducing the Case Study
+### Installation
 Begin by cloning this repository:
 ```
 git clone https://github.com/AndrewC19/covasim_case_study
@@ -59,7 +59,8 @@ pip install -r requirements.txt
 
 In addition to these requirements, the CTF requires pygraphviz which requires a graphviz installation. The method for installing these requirements 
 vary for different operating systems. Instructions can be found here: https://pygraphviz.github.io/documentation/stable/install.html
-#### Data Analysis
+
+### Data Analysis
 To reproduce the figures in `figures/` from the data in `data/`, the following commands can be used.
 
 1) To  apply the CTF to `data/observational_data.csv` and `data/observational_data_sample.csv` in order to produce `figures/causal_testing_framework.pdf` and `figures/less_data_causal_testing_framework.pdf`:
@@ -95,10 +96,10 @@ python scripts/python/covasim_case_study --krc
 python scripts/python/covasim_case_study --krc --ld
 ```
 
-#### Data Collection
+### Data Collection
 For this case study, data was collected using an HPC. The scripts used to collect the data can be found under `scripts/bash`. Nonetheless, here we explain how the python scripts called by these bash scripts (found under `scripts/python`) can be called to collect data.
 
-##### To collect SMT data from Covasim:
+#### Covasim SMT data:
 SMT data is collected by running each location 30 times with two different variants: alpha and beta. This is achieved by running the python script:
 ```
 python scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats 30 --fixed 
@@ -112,7 +113,7 @@ This will produce two files: `fixed_results/f_australia_seed_82239.csv` and `fix
 The bash script `scripts/bash/smt.sh` repeats this for every location. We then run `smt_data.csv` which produces `data/smt_data.csv` and `data/smt_results.csv`.
 For reproducibility, we have included a json file (`data/location_fixed_variants_seed_0.json`) mapping each location to the seed used for the beta and alpha run, respectively.
 
-##### To collect observational data from Covasim:
+#### Covasim observational data:
 Observational data is collected by running each location 30 times with a randomly assigned dominant variant. Each execution randomly samples a slightly different version of this variant. This is achieved by running the python script:
 ```
 python scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats 30 --sd 0.002
@@ -126,7 +127,7 @@ This will produce the file `results/sd_0.002/australia_variant_alpha_seed_783304
 The bash script `scripts/bash/simulate_locations.sh` repeats this for every location. We then run `python scripts/python/observational_data.py` which produces `data/observational_data.csv`.
 For reproducibility, we have included a json file (`data/location_variants_seed_0.json`) mapping each location to the variant and seed used for observational data collection.
 
-##### To collect RMSD, Spearman's rho, and Kendall's tau on subsets of observational data:
+#### Error vs. simulations data:
 We apply the CTF to increasingly smaller subsets of the full observational data set (`data/observational_data.csv`) and record the error 
 in terms of the root-mean-square deviation (RMSD) and two measures of rank correlation (Spearman's rho and Kendall's tau).
 This is achieved by running the following python command:
