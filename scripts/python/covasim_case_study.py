@@ -219,7 +219,7 @@ def rmsd_vs_data(rand_seed: int, n_samples: int, less_data: bool):
                     "spearmans_p_val": [],
                     "kendalls_tau": [],
                     "kendalls_p_val": []}
-    gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
+    gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
     sorted_gold_standard_ates = {k: v for k, v in sorted(gold_standard_ates.items(), key=lambda item: item[1])}
 
@@ -351,7 +351,7 @@ def sample_data(data_path: str, n_samples: int, rand_seed: int, less_data: bool)
 def ctf_results():
     observational_df = pd.read_csv("data/observational_data.csv",
                                    index_col=0)
-    gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
+    gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
     naive_ates = naive_regression(observational_df)
     ctf_estimates = increasing_beta("data/observational_data.csv")
@@ -361,7 +361,7 @@ def ctf_results():
 def less_data_ctf_results():
     observational_df = pd.read_csv("data/observational_data_sample.csv",
                                    index_col=0)
-    gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
+    gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
     naive_ates = naive_regression(observational_df)
     ctf_estimates = increasing_beta("data/observational_data_sample.csv")
@@ -372,7 +372,7 @@ def less_data_ctf_results():
 def location_results():
     observational_df = pd.read_csv("data/observational_data.csv",
                                    index_col=0)
-    gold_standard_df = pd.read_csv("smt_results.csv", index_col=0)
+    gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
     naive_ates = naive_regression(observational_df)
     location_ates = location_regression(observational_df)
@@ -401,10 +401,19 @@ if __name__ == "__main__":
     if args.loc:
         location_results()
     if args.rmsd:
-        plot_rmsd_vs_data("results/error_by_size.csv", "rmsd_by_size")
+        if args.ld:
+            plot_rmsd_vs_data("data/error_by_size_first_500.csv", "rmsd_by_size_first_500")
+        else:
+            plot_rmsd_vs_data("data/error_by_size.csv", "rmsd_by_size")
     if args.src:
-        plot_spearmans_r_vs_data("results/error_by_size.csv", "spearmans_r_by_size")
+        if args.ld:
+            plot_spearmans_r_vs_data("data/error_by_size_first_500.csv", "spearmans_r_by_size_first_500")
+        else:
+            plot_spearmans_r_vs_data("data/error_by_size.csv", "spearmans_r_by_size")
     if args.krc:
-        plot_kendalls_tau_vs_data("results/error_by_size.csv", "kendalls_t_by_size")
+        if args.ld:
+            plot_kendalls_tau_vs_data("data/error_by_size_first_500.csv", "kendalls_t_by_size_first_500")
+        else:
+            plot_kendalls_tau_vs_data("data/error_by_size.csv", "kendalls_t_by_size")
     if args.seed:
         rmsd_vs_data(args.seed, args.ns, args.ld)
