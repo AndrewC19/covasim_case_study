@@ -1,3 +1,4 @@
+#!/bin/bash
 file=$1
 cat "$file" | jq -r 'keys[]' |
 while IFS= read -r location; do
