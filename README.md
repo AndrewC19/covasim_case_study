@@ -134,11 +134,11 @@ python scripts/python/covasim_case_study.py --seed $1
 Where `$1` is the seed used for sampling the subsets.
 This script will create 500 subsets of the observational data and apply the CTF to each one.
 The subsets are saved under `results/subsets` and the results are saved in a file `results/data_size_seed_x.csv`, where `x` is the selected seed.
-The bash script `scripts/bash/sample_data.sh`repeats this for seed 1 to 30. We then run `python scripts/python/subsets.py` which combines these results into `data/error_by_size.csv`.
+The bash script `scripts/bash/sample_data.sh`repeats this for seeds 1 to 30. We then run `python scripts/python/subsets.py` which combines these results into `data/error_by_size.csv`.
 
 To reproduce the same data but focusing on fewer data points in greater detail, we can run the following python command:
 ```
 python scripts/python/covasim_case_study.py --seed $1 --ld
 ```
-Running `python scripts/python/subsets.py --ld` will then produce `error_by_size_first_500.csv`.
+Running `python scripts/python/subsets.py --ld` will then produce `data/error_by_size_first_500.csv`.
 
