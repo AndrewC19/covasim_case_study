@@ -4,10 +4,16 @@ Covasim."""
 
 import pandas as pd
 import numpy as np
-import covasim as cv
 import matplotlib.pyplot as plt
+from utils import combine_results
 
-SMT_CSV_DATA_PATH = "fixed_results/complete_data/smt.csv"
+SMT_CSV_DATA_PATH = "data/smt_data.csv"
+SMT_RESULTS_PATH = "fixed_results"
+
+
+def combine_smt_results():
+    smt_df = combine_results(SMT_RESULTS_PATH)
+    smt_df.to_csv(SMT_CSV_DATA_PATH)
 
 
 def smt_all_locations():
@@ -20,7 +26,7 @@ def smt_all_locations():
                                   "high_ci": confidence_intervals[1],
                                   "confidence_level": 0.95}
     pd.DataFrame.from_dict(results_dict,
-                           orient='index').to_csv("smt_results.csv")
+                           orient='index').to_csv("data/smt_results.csv")
 
 
 def plot_change_in_infections_by_location():
@@ -132,11 +138,5 @@ def smt_bootstrap_confidence_intervals(source_data,
 
 
 if __name__ == "__main__":
-    # smt_all_locations()
-    plot_change_in_infections_by_location()
-    # confidence_intervals = smt_bootstrap_confidence_intervals(
-    #     [100, 101, 102],
-    #     [150, 151, 252],
-    #     0.9,
-    #     20)
-    # print(confidence_intervals)
+    combine_smt_results()
+    smt_all_locations()
