@@ -1,5 +1,4 @@
-# Testing Causality in Scientific Modelling Software
-## Covasim Case Study
+# Testing Causality in Scientific Modelling Software: Covasim Case Study
 
 This repository contains the code for the Covasim case study from our paper entitled: "Testing Causality in Scientific Modelling Software."
 
