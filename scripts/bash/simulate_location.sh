@@ -18,5 +18,5 @@ if [ $5 = true ] || [ $5 = "True" ] || [ $5 = 1 ]
 then
   python scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --fixed
 else
-  python:q scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --sd $6
+  python scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --sd $6
 fi
