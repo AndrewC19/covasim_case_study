@@ -11,14 +11,14 @@ from matplotlib import rcParams
 from matplotlib.pyplot import figure
 from ctf_application import increasing_beta
 
-# REQUIRES LATEX INSTALLATION: COMMENT OUT TO REPRODUCE FIGURES WITHOUT LATEX
-rc_fonts = {
-    "font.family": "serif",
-    'font.serif': 'Linux Libertine O',
-    'font.size': 14,
-    "text.usetex": True
-}
-rcParams.update(rc_fonts)
+# REQUIRES LATEX INSTALLATION: UNCOMMENT TO PRODUCE FIGURES USING LATEX FONTS
+# rc_fonts = {
+#     "font.family": "serif",
+#     'font.serif': 'Linux Libertine O',
+#     'font.size': 14,
+#     "text.usetex": True
+# }
+# rcParams.update(rc_fonts)
 figure(figsize=(14, 5), dpi=150)
 
 
