@@ -192,6 +192,7 @@ def run_sim_with_pars(pars_dict: dict,
     :return results_df: A pandas df containing the results for each run
     """
     random.seed(seed)
+    np.random.seed(seed)
     results_dict = {k: [] for k in list(pars_dict.keys()) + desired_outputs + ['rand_seed', 'avg_age', 'beta',
                                                                                'avg_contacts_h', 'avg_contacts_s',
                                                                                'avg_contacts_w', 'avg_contacts_c',
