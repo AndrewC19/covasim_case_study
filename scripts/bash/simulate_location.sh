@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --time=2:00:00
+#SBATCH --time=10:00:00
 #SBATCH --mem-per-cpu=16000
 export SLURM_EXPORT_ENV=ALL
 module load Anaconda3/5.3.0
@@ -16,7 +16,7 @@ source activate covenv
 # $6 is the standard deviation of the distributions from which beta is drawn. This is used when fixed beta is false.
 if [ $5 = true ] || [ $5 = "True" ] || [ $5 = 1 ]
 then
-  sbatch scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --fixed
+  python scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --fixed
 else
-  sbatch scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --sd $6
+  python:q scripts/python/data_collection.py --loc $1 --variant $2 --seed $3 --repeats $4 --sd $6
 fi
