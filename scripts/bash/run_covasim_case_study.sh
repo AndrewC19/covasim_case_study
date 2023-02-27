@@ -12,7 +12,7 @@ source activate covenv
 # $2 is whether to run with less data or not
 if [ $2 = true ] || [ $2 = "True" ] || [ $2 = 1 ]
 then
-  sbatch scripts/python/covasim_case_study.py --seed $1 --ld
+  python scripts/python/covasim_case_study.py --seed $1 --ld
 else
-  sbatch scripts/python/covasim_case_study.py --seed $1
+  python scripts/python/covasim_case_study.py --seed $1
 fi
