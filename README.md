@@ -58,7 +58,7 @@ pip install -r requirements.txt
 ```
 
 In addition to these requirements, the CTF requires pygraphviz which requires a graphviz installation. The method for installing these requirements 
-vary for different operating systems. Instructions can be found here: https://pygraphviz.github.io/documentation/stable/install.html
+varies for different operating systems. Instructions can be found here: https://pygraphviz.github.io/documentation/stable/install.html
 
 ### Data Analysis
 To reproduce the figures in `figures/` from the data in `data/`, the following commands can be used.
@@ -110,7 +110,7 @@ python scripts/python/data_collection.py --loc australia --variant beta --seed 8
 python scripts/python/data_collection.py --loc australia --variant alpha --seed 346682 --repeats 30 --fixed
 ```
 This will produce two files: `fixed_results/f_australia_seed_82239.csv` and `fixed_results/f_australia_seed_346682.csv`.
-The bash script `scripts/bash/smt.sh` repeats this for every location. We then run `smt_data.csv` which produces `data/smt_data.csv` and `data/smt_results.csv`.
+The bash script `scripts/bash/smt.sh` repeats this for every location. We then run `python scripts/python/smt_data.sh` which produces `data/smt_data.csv` and `data/smt_results.csv`.
 For reproducibility, we have included a json file (`data/location_fixed_variants_seed_0.json`) mapping each location to the seed used for the beta and alpha run, respectively.
 
 #### Covasim observational data:
