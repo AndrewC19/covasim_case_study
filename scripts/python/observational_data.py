@@ -1,7 +1,7 @@
 """This script collates observational data collected for each location in Covasim."""
 from utils import combine_results
 
-LOCATION_OBSERVATIONAL_DATA_PATH = "results/varied_sds/sd_0.002"
+LOCATION_OBSERVATIONAL_DATA_PATH = "results/sd_0.002"
 OBSERVATIONAL_DATA_PATH = "data/observational_data.csv"
 
 

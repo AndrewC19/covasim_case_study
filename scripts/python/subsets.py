@@ -16,6 +16,6 @@ if __name__ == "__main__":
     parser.add_argument("--ld", action="store_true", help="Whether to append `first_500` to file name.")
     args = parser.parse_args()
     if args.ld:
-        combine_subset_data("data/error_by_data_size_first_500.csv")
+        combine_subset_data("data/error_by_size_first_500.csv")
     else:
-        combine_subset_data("data/error_by_data_size.csv")
+        combine_subset_data("data/error_by_size.csv")

@@ -12,13 +12,13 @@ from matplotlib.pyplot import figure
 from ctf_application import increasing_beta
 
 # REQUIRES LATEX INSTALLATION: UNCOMMENT TO PRODUCE FIGURES USING LATEX FONTS
-# rc_fonts = {
-#     "font.family": "serif",
-#     'font.serif': 'Linux Libertine O',
-#     'font.size': 14,
-#     "text.usetex": True
-# }
-# rcParams.update(rc_fonts)
+rc_fonts = {
+    "font.family": "serif",
+    'font.serif': 'Linux Libertine O',
+    'font.size': 14,
+    "text.usetex": True
+}
+rcParams.update(rc_fonts)
 figure(figsize=(14, 5), dpi=150)
 
 
@@ -359,7 +359,7 @@ def ctf_results():
 
 
 def less_data_ctf_results():
-    observational_df = pd.read_csv("data/observational_data_sample.csv",
+    observational_df = pd.read_csv("data/observational_data_sample.csv",  # TODO: Replace with updated sample.
                                    index_col=0)
     gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
