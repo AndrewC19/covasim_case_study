@@ -4,7 +4,7 @@ import random
 import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
 import argparse
-
+from time import time
 from scipy.stats import spearmanr, kendalltau
 from pathlib import Path
 from matplotlib import rcParams
@@ -12,13 +12,13 @@ from matplotlib.pyplot import figure
 from ctf_application import increasing_beta
 
 # REQUIRES LATEX INSTALLATION: UNCOMMENT TO PRODUCE FIGURES USING LATEX FONTS
-rc_fonts = {
-    "font.family": "serif",
-    'font.serif': 'Linux Libertine O',
-    'font.size': 14,
-    "text.usetex": True
-}
-rcParams.update(rc_fonts)
+# rc_fonts = {
+#     "font.family": "serif",
+#     'font.serif': 'Linux Libertine O',
+#     'font.size': 14,
+#     "text.usetex": True
+# }
+# rcParams.update(rc_fonts)
 figure(figsize=(14, 5), dpi=150)
 
 
@@ -141,8 +141,8 @@ def rmsd(true_values, estimates):
     squared_difference = np.power(difference, 2)
     sum_squared_difference = np.sum(squared_difference)
     normalised_sum_squared_difference = sum_squared_difference / len(estimates)
-    rmsd = np.sqrt(normalised_sum_squared_difference)
-    return rmsd
+    rmsds = np.sqrt(normalised_sum_squared_difference)
+    return rmsds
 
 
 def rmsd_from_dicts(true_dict, estimate_dict):
@@ -154,6 +154,28 @@ def rmsd_from_dicts(true_dict, estimate_dict):
         true_values.append(true_dict[location])
         estimates.append(estimate_dict[location])
     return rmsd(true_values, estimates)
+
+
+def rmspe(true_values, estimates):
+    """Calculate the root mean square percentage error."""
+    difference = np.array(true_values) - np.array(estimates)
+    percentage_difference = np.divide(difference, true_values)
+    squared_percentage_difference = np.power(percentage_difference, 2)
+    sum_squared_percentage_difference = np.sum(squared_percentage_difference)
+    mspes = sum_squared_percentage_difference / len(estimates)
+    rmspes = np.sqrt(mspes)
+    return rmspes
+
+
+def rmspe_from_dicts(true_dict, estimate_dict):
+    """Given a dict for true location effects and another for estimated location effects, return the overall
+    root-mean-square-percentage error (error)."""
+    true_values = []
+    estimates = []
+    for location in true_dict.keys():
+        true_values.append(true_dict[location])
+        estimates.append(estimate_dict[location])
+    return rmspe(true_values, estimates)
 
 
 def individual_errors(true_dict, estimate_dict):
@@ -203,8 +225,8 @@ def plot_estimates(gold_standard, naive_estimates, causal_estimates, color='blue
 
 
 def rmsd_vs_data(rand_seed: int, n_samples: int, less_data: bool):
-    """Obtain the RMSD (error) and rank correlation vs. the amount of data. This experiment repeatedly applies the CTF
-    to smaller subsets of the original data and calculates:
+    """Obtain the RMSD and RMPSE (error) and rank correlation vs. the amount of data. This experiment repeatedly applies
+    the CTF to smaller subsets of the original data and calculates:
     (1) The error as the root-mean-square deviation over all location estimates.
     (2) The rank correlation using two metrics: Spearman's Rho and Kendall's Tau.
 
@@ -215,6 +237,7 @@ def rmsd_vs_data(rand_seed: int, n_samples: int, less_data: bool):
     """
     results_dict = {"data_points": [],
                     "rmsd": [],
+                    "rmpse": [],
                     "spearmans_r": [],
                     "spearmans_p_val": [],
                     "kendalls_tau": [],
@@ -259,6 +282,7 @@ def rmsd_vs_data(rand_seed: int, n_samples: int, less_data: bool):
         results_dict["kendalls_p_val"].append(kendalls.pvalue)
         results_dict["data_points"].append(len(data))
         results_dict["rmsd"].append(rmsd_from_dicts(gold_standard_ates, ctf_estimates))
+        results_dict["rmpse"].append(rmspe_from_dicts(gold_standard_ates, ctf_estimates))
 
     # Write results to CSV
     df = pd.DataFrame(results_dict)
@@ -272,15 +296,24 @@ def plot_rmsd_vs_data(rmsd_csv_path, output_name):
     ys_mean = []
     ys_min = []
     ys_max = []
+    ys_upper = []
+    ys_lower = []
     for x in xs:
         x_df = df.loc[df['data_points'] == x]['rmsd']
-        ys_mean.append(x_df.mean())
-        ys_min.append(x_df.min())
-        ys_max.append(x_df.max())
+        mean = x_df.mean()
+        ci = 1.96*(x_df.std()/np.sqrt(len(x_df)))
+        ys_mean.append(mean)
+        ys_lower.append(mean - ci)
+        ys_upper.append(mean + ci)
+
+        # ys_min.append(x_df.min())
+        # ys_max.append(x_df.max())
     plt.xlabel("Data Points")
     plt.ylabel("RMSD")
     plt.plot(xs, ys_mean, color='red', linewidth=.8)
-    plt.fill_between(xs, ys_min, ys_max, color='red', alpha=.2)
+    plt.xscale("log")
+    plt.xlim(df['data_points'].min(), df['data_points'].max())
+    plt.fill_between(xs, ys_lower, ys_upper, color='red', alpha=.2)
     plt.tight_layout()
     plt.savefig(f"figures/{output_name}.pdf", format='pdf', dpi=150)
     plt.show()
@@ -291,17 +324,22 @@ def plot_spearmans_r_vs_data(spearmans_csv_path, output_name):
     df = pd.read_csv(spearmans_csv_path)
     xs = df['data_points'].unique()
     ys_mean = []
-    ys_min = []
-    ys_max = []
+    ys_lower = []
+    ys_upper = []
     for x in xs:
         x_df = df.loc[df['data_points'] == x]['spearmans_r']
-        ys_mean.append(x_df.mean())
-        ys_min.append(x_df.min())
-        ys_max.append(x_df.max())
+        mean = x_df.mean()
+        ci = 1.96 * (x_df.std() / np.sqrt(len(x_df)))
+        ys_mean.append(mean)
+        ys_lower.append(mean - ci)
+        ys_upper.append(mean + ci)
     plt.xlabel("Data Points")
     plt.ylabel(r"Spearman's $\rho$")
     plt.plot(xs, ys_mean, color='blue', linewidth=.8)
-    plt.fill_between(xs, ys_min, ys_max, color='blue', alpha=.2)
+    plt.xscale("log")
+    plt.xlim(df['data_points'].min(), df['data_points'].max())
+    plt.ylim(0, 1)
+    plt.fill_between(xs, ys_lower, ys_upper, color='blue', alpha=.2)
     plt.tight_layout()
     plt.savefig(f"figures/{output_name}.pdf", format='pdf', dpi=150)
     plt.show()
@@ -312,17 +350,22 @@ def plot_kendalls_tau_vs_data(kendalls_csv_path, output_name):
     df = pd.read_csv(kendalls_csv_path)
     xs = df['data_points'].unique()
     ys_mean = []
-    ys_min = []
-    ys_max = []
+    ys_lower = []
+    ys_upper = []
     for x in xs:
         x_df = df.loc[df['data_points'] == x]['kendalls_tau']
-        ys_mean.append(x_df.mean())
-        ys_min.append(x_df.min())
-        ys_max.append(x_df.max())
+        mean = x_df.mean()
+        ci = 1.96 * (x_df.std() / np.sqrt(len(x_df)))
+        ys_mean.append(mean)
+        ys_lower.append(mean - ci)
+        ys_upper.append(mean + ci)
     plt.xlabel("Data Points")
     plt.ylabel(r"Kendall's $\tau$")
     plt.plot(xs, ys_mean, color='green', linewidth=.8)
-    plt.fill_between(xs, ys_min, ys_max, color='green', alpha=.2)
+    plt.xscale("log")
+    plt.xlim(df['data_points'].min(), df['data_points'].max())
+    plt.ylim(0, 1)
+    plt.fill_between(xs, ys_lower, ys_upper, color='green', alpha=.2)
     plt.tight_layout()
     plt.savefig(f"figures/{output_name}.pdf", format='pdf', dpi=150)
     plt.show()
@@ -353,9 +396,47 @@ def ctf_results():
                                    index_col=0)
     gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
+    sorted_gold_standard_ates = {k: v for k, v in sorted(gold_standard_ates.items(), key=lambda item: item[1])}
+
+    # Order gold standard location effects in ascending order
+    gold_standard_locations_by_ascending_effect = list(sorted_gold_standard_ates.keys())
+
+    # Map each location to a number starting with the location with the smallest observed effect
+    ranks_dict = {location: i for i, location in enumerate(gold_standard_locations_by_ascending_effect)}
+    gold_standard_ranks = list(ranks_dict.values())
+
     naive_ates = naive_regression(observational_df)
+    ctf_start_time = time()
     ctf_estimates = increasing_beta("data/observational_data.csv")
+    ctf_end_time = time()
+
+    ctf_estimates_df = pd.DataFrame.from_dict(ctf_estimates, orient='index')
+    ctf_estimates_df = ctf_estimates_df.rename(columns={0: "estimate"})
+    ctf_estimates_df.index.name = "location"
+    ctf_estimates_df.to_csv("data/ctf_estimates.csv")
+    print(ctf_estimates)
+    sorted_ctf_estimates = {k: v for k, v in sorted(ctf_estimates.items(), key=lambda item: item[1])}
+    ctf_locations_by_ascending_effect = list(sorted_ctf_estimates)
+
+    # Using the gold standard mapping, obtain a list of ranks ready for the CTF for Spearman's rank correlation
+    # and Kendall's Tau
+    ctf_ranks = [ranks_dict[location] for location in ctf_locations_by_ascending_effect]
+    kendalls = kendalltau(gold_standard_ranks, ctf_ranks)
+    print(f"Kendall's Tau: {kendalls.correlation}")
+    print(f"p-value: {kendalls.pvalue}")
+
+    # Get the RMSD
+    ctf_rmsd = rmsd_from_dicts(gold_standard_ates, ctf_estimates)
+    ctf_rmspe = rmspe_from_dicts(gold_standard_ates, ctf_estimates)
+    naive_regression_rmsd = rmsd_from_dicts(gold_standard_ates, naive_ates)
+    naive_regression_rmspe = rmspe_from_dicts(gold_standard_ates, naive_ates)
+    print(f"CTF RMSD: {ctf_rmsd}")
+    print(f"CTF RMPSE: {ctf_rmspe}")
+    print(f"Naive regression RMSD: {naive_regression_rmsd}")
+    print(f"Naive regression RMPSE: {naive_regression_rmspe}")
+
     plot_estimates(gold_standard_ates, naive_ates, ctf_estimates, title="Results using 4680 data points")
+    print(f"CTF run time: {ctf_end_time - ctf_start_time}")
 
 
 def less_data_ctf_results():
@@ -374,8 +455,29 @@ def location_results():
                                    index_col=0)
     gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
+    sorted_gold_standard_ates = {k: v for k, v in sorted(gold_standard_ates.items(), key=lambda item: item[1])}
+
+    # Order gold standard location effects in ascending order
+    gold_standard_locations_by_ascending_effect = list(sorted_gold_standard_ates.keys())
+
+    # Map each location to a number starting with the location with the smallest observed effect
+    ranks_dict = {location: i for i, location in enumerate(gold_standard_locations_by_ascending_effect)}
+    gold_standard_ranks = list(ranks_dict.values())
+
     naive_ates = naive_regression(observational_df)
     location_ates = location_regression(observational_df)
+
+    sorted_location_estimates = {k: v for k, v in sorted(location_ates.items(), key=lambda item: item[1])}
+    location_estimates_locations_by_ascending_effect = list(sorted_location_estimates)
+
+    location_ranks = [ranks_dict[location] for location in location_estimates_locations_by_ascending_effect]
+    kendalls = kendalltau(gold_standard_ranks, location_ranks)
+    print(f"Kendall's Tau: {kendalls.correlation}")
+    print(f"p-value: {kendalls.pvalue}")
+
+    # Get the RMSD
+    location_rmsd = rmsd_from_dicts(gold_standard_ates, location_ates)
+    print(f"Location RMSD: {location_rmsd}")
     plot_estimates(gold_standard_ates, naive_ates, location_ates, label="Location Regression", color="black")
 
 
