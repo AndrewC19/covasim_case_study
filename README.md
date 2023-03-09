@@ -65,35 +65,35 @@ To reproduce the figures in `figures/` from the data in `data/`, the following c
 
 1) To  apply the CTF to `data/observational_data.csv` and `data/observational_data_sample.csv` in order to produce `figures/causal_testing_framework.pdf` and `figures/less_data_causal_testing_framework.pdf`:
 ```
-python scripts/python/covasim_case_study --ctf
+python scripts/python/covasim_case_study.py --ctf
 ``` 
 2) To apply the location-specific regression model to `data/observational_data.csv` to produce `figures/location_regression.pdf`:
 ```
-python scripts/python/covasim_case_study --loc
+python scripts/python/covasim_case_study.py --loc
 ```
 3) To plot the root-mean-square deviation (RMSD) against amount of data (`figures/rmsd_by_size.pdf`) using `data/error_by_size.csv`:
 ```
-python scripts/python/covasim_case_study --rmsd
+python scripts/python/covasim_case_study.py --rmsd
 ```
 4) To repeat the above but focusing on fewer data points in more detail (`figures/rmsd_by_size_first_500.pdf`):
 ```
-python scripts/python/covasim_case_study --rmsd --ld
+python scripts/python/covasim_case_study.py --rmsd --ld
 ```
 5) To plot Spearman's rho against amount of data (`figures/spearmans_r_by_size.pdf`) using `data/error_by_size.csv`:
 ```
-python scripts/python/covasim_case_study --src
+python scripts/python/covasim_case_study.py --src
 ```
 6) To repeat the above but focusing on fewer data points in more detail (`figures/spearmans_r_by_size_first_500.pdf`):
 ```
-python scripts/python/covasim_case_study --src --ld
+python scripts/python/covasim_case_study.py --src --ld
 ```
 7) To plot Kendall's tau against amount of data (`kendalls_t_by_size.pdf`) using `data/error_by_size.csv`: 
 ```
-python scripts/python/covasim_case_study --krc
+python scripts/python/covasim_case_study.py --krc
 ```
 8) To repeat the above but focusing on fewer data points in more detail (`kendalls_t_by_size_first_500.pdf`):
 ```
-python scripts/python/covasim_case_study --krc --ld
+python scripts/python/covasim_case_study.py --krc --ld
 ```
 
 ### Data Collection
