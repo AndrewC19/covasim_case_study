@@ -15,7 +15,6 @@ small amounts of data.
   - `smt_data.csv` contains 9360 executions of Covasim: 30 executions per location (of which there are 156) per variant (of which there are two).
   - `smt_results.csv` contains the results of applying SMT to each location in Covasim.
   - `error_by_size.csv` contains the error (root-mean-square deviation, Spearman's rho, and Kendall's tau) corresponding to applications of the CTF to different amounts of data, ranging from 9 data points of the full data set to 4671 data points.
-  - `error_by_size_first_500.csv` contains the same data as the above csv, but focuses on a smaller range of data points (more samples over a smaller range).
   - `location_variants_seed_0.json` maps each location to a COVID-19 variant and a randomly generated seed. These settings are used to produce `observational_data.csv`.
   - `location_fixed_variants_seed_0.json` maps each location to two COVID-19 variants (beta and alpha) and a pair of random seeds. These settings are used to produce `smt_results.csv`.
 - `figures/` contains all of the figures that can be produced from this code.
@@ -71,29 +70,9 @@ python scripts/python/covasim_case_study.py --ctf
 ```
 python scripts/python/covasim_case_study.py --loc
 ```
-3) To plot the root-mean-square deviation (RMSD) against amount of data (`figures/rmsd_by_size.pdf`) using `data/error_by_size.csv`:
+3) To plot figures showing RMSPE, RMSD, Kendall's RC, and Spearman's RC vs. amount of data:
 ```
-python scripts/python/covasim_case_study.py --rmsd
-```
-4) To repeat the above but focusing on fewer data points in more detail (`figures/rmsd_by_size_first_500.pdf`):
-```
-python scripts/python/covasim_case_study.py --rmsd --ld
-```
-5) To plot Spearman's rho against amount of data (`figures/spearmans_r_by_size.pdf`) using `data/error_by_size.csv`:
-```
-python scripts/python/covasim_case_study.py --src
-```
-6) To repeat the above but focusing on fewer data points in more detail (`figures/spearmans_r_by_size_first_500.pdf`):
-```
-python scripts/python/covasim_case_study.py --src --ld
-```
-7) To plot Kendall's tau against amount of data (`kendalls_t_by_size.pdf`) using `data/error_by_size.csv`: 
-```
-python scripts/python/covasim_case_study.py --krc
-```
-8) To repeat the above but focusing on fewer data points in more detail (`kendalls_t_by_size_first_500.pdf`):
-```
-python scripts/python/covasim_case_study.py --krc --ld
+python scripts/python/covasim_case_study.py --cost
 ```
 
 ### Data Collection
@@ -129,7 +108,7 @@ For reproducibility, we have included a json file (`data/location_variants_seed_
 
 #### Error vs. simulations data:
 We apply the CTF to increasingly smaller subsets of the full observational data set (`data/observational_data.csv`) and record the error 
-in terms of the root-mean-square deviation (RMSD) and two measures of rank correlation (Spearman's rho and Kendall's tau).
+in terms of the root-mean-square deviation (RMSD) and root-mean-square percentage error (RMSPE), as well as two measures of rank correlation (Spearman's rho and Kendall's tau).
 This is achieved by running the following python command:
 ```
 python scripts/python/covasim_case_study.py --seed $1
@@ -138,10 +117,3 @@ Where `$1` is the seed used for sampling the subsets.
 This script will create 500 subsets of the observational data and apply the CTF to each one.
 The subsets are saved under `results/subsets` and the results are saved in a file `results/data_size_seed_x.csv`, where `x` is the selected seed.
 The bash script `scripts/bash/sample_data.sh`repeats this for seeds 1 to 30. We then run `python scripts/python/subsets.py` which combines these results into `data/error_by_size.csv`.
-
-To reproduce the same data but focusing on fewer data points in greater detail, we can run the following python command:
-```
-python scripts/python/covasim_case_study.py --seed $1 --ld
-```
-Running `python scripts/python/subsets.py --ld` will then produce `data/error_by_size_first_500.csv`.
-
