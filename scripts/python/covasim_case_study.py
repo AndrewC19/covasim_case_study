@@ -19,7 +19,6 @@ from ctf_application import increasing_beta
 #     "text.usetex": True
 # }
 # rcParams.update(rc_fonts)
-figure(figsize=(14, 5), dpi=150)
 
 
 def gold_standard_results(df):
@@ -66,73 +65,6 @@ def location_regression(df):
         results_dict[location] = ate
     sorted_results_dict = {k: v for k, v in sorted(results_dict.items())}
     return sorted_results_dict
-
-
-# def causal_regression(df):
-#     """Perform a causal regression, adjusting for work, school and household contacts, and average relative
-#     susceptibility."""
-#     # causal_regression_eqn = """cum_infections ~ beta + np.power(beta, 2) +
-#     #                            avg_contacts_s + avg_contacts_w + avg_rel_sus +
-#     #                            avg_contacts_h + beta:avg_contacts_s +
-#     #                            beta:avg_contacts_w + beta:avg_contacts_h +
-#     #                            beta:avg_rel_sus
-#     #                        """
-#
-#     # PROCESS TO CONSTRUCT THIS REGRESSION EQUATION:
-#     # First, we used our causal dag to identify sufficient adjustment sets.
-#     # We then used our domain knowledge to select, from these adjustment sets,
-#     # which is most appropriate. In this case, using total contacts in workplace
-#     # and school, and avg rel sus is better than age because it's the shape of
-#     # the age distribution that matters, not the mean.
-#     # We also add quadratic terms where variables are known or suspected to have
-#     # a curvilinear relationship with cumulative infections. This may not be
-#     # strictly necessary after linearising the data, but is there for safety.
-#
-#     # causal_regression_eqn = """cum_infections ~ np.log(beta) + np.power(np.log(beta), 2) +
-#     #                                np.log(avg_contacts_h) + np.power(np.log(avg_contacts_h), 2) +
-#     #                                np.log(avg_rel_sus) + np.power(np.log(avg_rel_sus), 2) +
-#     #                                np.log(total_contacts_w) + np.power(np.log(total_contacts_w), 2) +
-#     #                                np.log(total_contacts_s) + np.power(np.log(total_contacts_s), 2) +
-#     #                                np.log(beta):np.log(total_contacts_w) +
-#     #                                np.log(beta):np.log(total_contacts_s) +
-#     #                                np.log(beta):np.log(avg_contacts_h) +
-#     #                                np.log(beta):np.log(avg_rel_sus)
-#     #                            """
-#     to_log = ["beta", "avg_contacts_h", "avg_rel_sus", "total_contacts_w", "total_contacts_s"]
-#     logged_df = df.copy()
-#     logged_df[to_log] = np.log(logged_df[to_log])
-#     causal_regression_eqn = """cum_infections ~ beta + np.power(beta, 2) +
-#                                        avg_contacts_h + np.power(avg_contacts_h, 2) +
-#                                        avg_rel_sus + np.power(avg_rel_sus, 2) +
-#                                        total_contacts_w + np.power(total_contacts_w, 2) +
-#                                        total_contacts_s + np.power(total_contacts_s, 2) +
-#                                        beta:total_contacts_w +
-#                                        beta:total_contacts_s +
-#                                        beta:avg_contacts_h +
-#                                        beta:avg_rel_sus
-#                                    """
-#     causal_model = smf.ols(causal_regression_eqn, data=logged_df).fit()
-#     source_follow_up_dict = {'beta': [np.log(0.016), np.log(0.02672)]}
-#     # adjustment_set = ["avg_contacts_h", "avg_contacts_w", "avg_contacts_s",
-#     #                   "avg_rel_sus"]
-#     adjustment_set = ["avg_contacts_h", "avg_age", "avg_rel_sus", "total_contacts_s",
-#                       "total_contacts_w"]
-#     locations = df["location"].unique()
-#     results_dict = {}
-#     for location in locations:
-#         adjustment_dict = {}
-#         location_df = logged_df.loc[logged_df["location"] == location]
-#         for adjustment_var in adjustment_set:
-#             adjustment_dict[adjustment_var] = location_df[adjustment_var].mean()
-#         location_individuals = pd.DataFrame(
-#             index=['source', 'follow-up'],
-#             data=source_follow_up_dict | adjustment_dict
-#         )
-#         predicted_outcomes = causal_model.predict(location_individuals)
-#         ate = predicted_outcomes['follow-up'] - predicted_outcomes['source']
-#         results_dict[location] = ate
-#     sorted_results_dict = {k: v for k, v in sorted(results_dict.items())}
-#     return sorted_results_dict
 
 
 def rmsd(true_values, estimates):
@@ -216,7 +148,6 @@ def plot_estimates(gold_standard, naive_estimates, causal_estimates, color='blue
     plt.ylabel("Change in Cumulative Infections")
     if title:
         plt.title(title)
-    plt.plot()
     plt.legend()
     plt.tight_layout()
     out_pdf = label.replace(" ", "_").lower() + ".pdf"
@@ -291,11 +222,10 @@ def rmsd_vs_data(rand_seed: int, n_samples: int, less_data: bool):
 
 def plot_rmsd_vs_data(rmsd_csv_path, output_name):
     """Plot RMSD vs. amount of data from CSV."""
+    figure(figsize=(14, 5), dpi=150)
     df = pd.read_csv(rmsd_csv_path)
     xs = df['data_points'].unique()
     ys_mean = []
-    ys_min = []
-    ys_max = []
     ys_upper = []
     ys_lower = []
     for x in xs:
@@ -305,9 +235,6 @@ def plot_rmsd_vs_data(rmsd_csv_path, output_name):
         ys_mean.append(mean)
         ys_lower.append(mean - ci)
         ys_upper.append(mean + ci)
-
-        # ys_min.append(x_df.min())
-        # ys_max.append(x_df.max())
     plt.xlabel("Data Points")
     plt.ylabel("RMSD")
     plt.plot(xs, ys_mean, color='red', linewidth=.8)
@@ -319,8 +246,38 @@ def plot_rmsd_vs_data(rmsd_csv_path, output_name):
     plt.show()
 
 
+def plot_rmpse_vs_data(rmspe_csv_path, output_name):
+    """Plot RMSPE vs. amount of data from CSV."""
+    figure(figsize=(14, 5), dpi=150)
+    df = pd.read_csv(rmspe_csv_path)
+    xs = df['data_points'].unique()
+    ys_mean = []
+    ys_upper = []
+    ys_lower = []
+    for x in xs:
+        x_df = df.loc[df['data_points'] == x]['rmpse']
+        mean = x_df.mean()
+        ci = 1.96*(x_df.std()/np.sqrt(len(x_df)))
+        ys_mean.append(mean)
+        ys_lower.append(mean - ci)
+        ys_upper.append(mean + ci)
+
+        # ys_min.append(x_df.min())
+        # ys_max.append(x_df.max())
+    plt.xlabel("Data Points")
+    plt.ylabel("RMSPE")
+    plt.plot(xs, ys_mean, color='blue', linewidth=.8)
+    plt.xscale("log")
+    plt.xlim(df['data_points'].min(), df['data_points'].max())
+    plt.fill_between(xs, ys_lower, ys_upper, color='blue', alpha=.2)
+    plt.tight_layout()
+    plt.savefig(f"figures/{output_name}.pdf", format='pdf', dpi=150)
+    plt.show()
+
+
 def plot_spearmans_r_vs_data(spearmans_csv_path, output_name):
     """Plot Spearman's rho vs. amount of data from CSV."""
+    figure(figsize=(14, 5), dpi=150)
     df = pd.read_csv(spearmans_csv_path)
     xs = df['data_points'].unique()
     ys_mean = []
@@ -335,11 +292,11 @@ def plot_spearmans_r_vs_data(spearmans_csv_path, output_name):
         ys_upper.append(mean + ci)
     plt.xlabel("Data Points")
     plt.ylabel(r"Spearman's $\rho$")
-    plt.plot(xs, ys_mean, color='blue', linewidth=.8)
+    plt.plot(xs, ys_mean, color='magenta', linewidth=.8)
     plt.xscale("log")
     plt.xlim(df['data_points'].min(), df['data_points'].max())
     plt.ylim(0, 1)
-    plt.fill_between(xs, ys_lower, ys_upper, color='blue', alpha=.2)
+    plt.fill_between(xs, ys_lower, ys_upper, color='magenta', alpha=.2)
     plt.tight_layout()
     plt.savefig(f"figures/{output_name}.pdf", format='pdf', dpi=150)
     plt.show()
@@ -347,6 +304,7 @@ def plot_spearmans_r_vs_data(spearmans_csv_path, output_name):
 
 def plot_kendalls_tau_vs_data(kendalls_csv_path, output_name):
     """Plot Kendall's tau vs. amount of data from CSV."""
+    figure(figsize=(14, 5), dpi=150)
     df = pd.read_csv(kendalls_csv_path)
     xs = df['data_points'].unique()
     ys_mean = []
@@ -414,7 +372,7 @@ def ctf_results():
     ctf_estimates_df = ctf_estimates_df.rename(columns={0: "estimate"})
     ctf_estimates_df.index.name = "location"
     ctf_estimates_df.to_csv("data/ctf_estimates.csv")
-    print(ctf_estimates)
+
     sorted_ctf_estimates = {k: v for k, v in sorted(ctf_estimates.items(), key=lambda item: item[1])}
     ctf_locations_by_ascending_effect = list(sorted_ctf_estimates)
 
@@ -440,7 +398,7 @@ def ctf_results():
 
 
 def less_data_ctf_results():
-    observational_df = pd.read_csv("data/observational_data_sample.csv",  # TODO: Replace with updated sample.
+    observational_df = pd.read_csv("data/observational_data_sample.csv",
                                    index_col=0)
     gold_standard_df = pd.read_csv("data/smt_results.csv", index_col=0)
     gold_standard_ates = gold_standard_results(gold_standard_df)
@@ -485,8 +443,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--ctf", action="store_true", help="Reproduce CTF results.")
     parser.add_argument("--loc", action="store_true", help="Reproduce location regression results.")
-    parser.add_argument("--rmsd", action="store_true", help="Plot RMSD vs. amount of data.")
-    parser.add_argument("--src", action="store_true", help="Plot Spearman's rank correlation vs. amount of data.")
+    parser.add_argument("--cost", action="store_true", help="Plot RMSD, RMPSE, Spearman's RC, and Kendall's RC vs. "
+                                                            "data.")
     parser.add_argument("--krc", action="store_true", help="Plot Kendall's rank correlation vs. amount of data.")
     parser.add_argument("--seed", required=False, help="Seed for sampling subsets of data and calculating RMSD and rank"
                                                        " correlation of CTF results vs. the gold standard.")
@@ -502,20 +460,10 @@ if __name__ == "__main__":
         less_data_ctf_results()
     if args.loc:
         location_results()
-    if args.rmsd:
-        if args.ld:
-            plot_rmsd_vs_data("data/error_by_size_first_500.csv", "rmsd_by_size_first_500")
-        else:
-            plot_rmsd_vs_data("data/error_by_size.csv", "rmsd_by_size")
-    if args.src:
-        if args.ld:
-            plot_spearmans_r_vs_data("data/error_by_size_first_500.csv", "spearmans_r_by_size_first_500")
-        else:
-            plot_spearmans_r_vs_data("data/error_by_size.csv", "spearmans_r_by_size")
-    if args.krc:
-        if args.ld:
-            plot_kendalls_tau_vs_data("data/error_by_size_first_500.csv", "kendalls_t_by_size_first_500")
-        else:
-            plot_kendalls_tau_vs_data("data/error_by_size.csv", "kendalls_t_by_size")
+    if args.cost:
+        plot_rmsd_vs_data("data/error_by_size.csv", "rmsd_by_size")
+        plot_rmpse_vs_data("data/error_by_size.csv", "rmspe_by_size")
+        plot_spearmans_r_vs_data("data/error_by_size.csv", "spearmans_r_by_size")
+        plot_kendalls_tau_vs_data("data/error_by_size.csv", "kendalls_t_by_size")
     if args.seed:
         rmsd_vs_data(args.seed, args.ns, args.ld)
