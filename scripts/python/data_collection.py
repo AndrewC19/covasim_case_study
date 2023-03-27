@@ -9,6 +9,7 @@ import functools
 import sys
 
 from covasim.data.loaders import get_age_distribution, get_household_size
+from time import time
 
 VARIANT_BETA_DICT = {'alpha': 1.67 * 0.016,
                      'beta': 0.016,
@@ -216,7 +217,10 @@ def run_sim_with_pars(pars_dict: dict,
                                                 StoreAverageRelativeSusceptibility(),
                                                 StoreAgentsPerContactLayer()])
         m_sim = cv.MultiSim(sim)
+        sim_start_time = time()
         m_sim.run(n_runs=1, verbose=verbose, n_cpus=1)
+        sim_end_time = time()
+        print(f"Sim run time: {sim_end_time - sim_start_time}")
 
         for run in m_sim.sims:
             results = run.results
