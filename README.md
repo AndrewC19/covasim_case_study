@@ -28,6 +28,7 @@ small amounts of data.
     - `covasim_case_study.py` contains the code for analysing the collected data.
     - `subsets.py` contains the code for combining error data to form `error_by_size.csv`.
     - `observational_data.py` contains the code for combining observational data for each location into `observational_data.csv`.
+    - `spline_regression.py` contains the code for reproducing the spline regression results from the Appendix.
 - `dag.dot` is the causal DAG for this case study.
 - `requirements.txt` lists the requirements for this case study.
 - `results/` is an empty directory that will be populated with observational data results during data collection.
