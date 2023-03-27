@@ -436,6 +436,10 @@ def location_results():
     # Get the RMSD
     location_rmsd = rmsd_from_dicts(gold_standard_ates, location_ates)
     print(f"Location RMSD: {location_rmsd}")
+
+    # Get the RMSPE
+    location_rmspe = rmspe_from_dicts(gold_standard_ates, location_ates)
+    print(f"Location RMSPE: {location_rmspe}")
     plot_estimates(gold_standard_ates, naive_ates, location_ates, label="Location Regression", color="black")
 
 
