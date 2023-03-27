@@ -2,7 +2,7 @@
 import argparse
 from utils import combine_results
 
-SUBSET_SEEDS_DATA_PATH = "results/subsets"
+SUBSET_SEEDS_DATA_PATH = "results/subsets_with_percentage_error"
 
 
 def combine_subset_data(out_file_name):
